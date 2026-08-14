@@ -1,8 +1,8 @@
 # Automation Portfolio
 
-A collection of production-grade automation workflows built with **n8n**, **OpenAI**, and **GoHighLevel CRM** — designed for real estate operations, AI-assisted outreach, and CRM intelligence.
+A collection of production-grade automation systems and workflows built with **n8n**, **OpenAI**, **VAPI**, **Node.js**, and **GoHighLevel CRM** — designed for real estate operations, AI voice automation, and CRM intelligence.
 
-All workflows are sanitized (credentials removed) and documented for review.
+All projects are sanitized (credentials removed) and documented for review.
 
 ---
 
@@ -71,9 +71,20 @@ Custom real-time CRM dashboard served via n8n webhooks. Pulls pipeline and conta
 
 ---
 
+### 8. [Purple Cow AI Receptionist](./purple-cow-ai-receptionist/)
+> **VAPI.ai + Node.js + Rex CRM + Railway**
+
+Production AI voice receptionist that answers every inbound call to a real estate office 24/7 — no human operator needed. Greets callers, looks up live property listings from Rex CRM, matches agent names using fuzzy + phonetic search, transfers calls to the right agent's mobile, and automatically writes call notes and creates leads in Rex after every call.
+
+**Stack:** VAPI.ai · Node.js · Express · Rex CRM API · Railway · Resend · GitHub
+
+**Full codebase:** [verdeflors/purple-cow-receptionist](https://github.com/verdeflors/purple-cow-receptionist)
+
+---
+
 ## About
 
-Built and deployed by **Marc** — automation engineer focused on AI-integrated CRM workflows and real estate operations.
+Built and deployed by **Marc** — automation engineer focused on AI voice systems, CRM integrations, and real estate operations.
 
 - All workflows run on a self-hosted n8n instance
 - Production-tested and actively maintained
