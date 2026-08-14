@@ -42,7 +42,7 @@
                                                               },
                                          "sendBody":  true,
                                          "specifyBody":  "json",
-                                         "jsonBody":  "={\n  \"email\": \"Info@purplecowrealestate.com.au\",\n  \"password\": \"ComplexPassword123$$$\",\n  \"account_id\": 0\n}",
+                                         "jsonBody":  "={\n  \"email\": \"your@email.com\",\n  \"password\": \"ComplexPassword123$$$\",\n  \"account_id\": 0\n}",
                                          "options":  {
 
                                                      }
@@ -69,7 +69,7 @@
                                                                                      },
                                                                                      {
                                                                                          "name":  "Authorization",
-                                                                                         "value":  "=Bearer {{ $(\u0027Rex Login\u0027).first().json.result }}"
+                                                                                         "value":  "=Bearer YOUR_TOKEN_HERE $(\u0027Rex Login\u0027).first().json.result }}"
                                                                                      }
                                                                                  ]
                                                               },
@@ -102,7 +102,7 @@
                                                                                      },
                                                                                      {
                                                                                          "name":  "Authorization",
-                                                                                         "value":  "=Bearer {{ $(\u0027Rex Login\u0027).first().json.result }}"
+                                                                                         "value":  "=Bearer YOUR_TOKEN_HERE $(\u0027Rex Login\u0027).first().json.result }}"
                                                                                      }
                                                                                  ]
                                                               },
@@ -135,7 +135,7 @@
                                                                                      },
                                                                                      {
                                                                                          "name":  "Authorization",
-                                                                                         "value":  "=Bearer {{ $(\u0027Rex Login\u0027).first().json.result }}"
+                                                                                         "value":  "=Bearer YOUR_TOKEN_HERE $(\u0027Rex Login\u0027).first().json.result }}"
                                                                                      }
                                                                                  ]
                                                               },
@@ -168,7 +168,7 @@
                                                                                      },
                                                                                      {
                                                                                          "name":  "Authorization",
-                                                                                         "value":  "=Bearer {{ $(\u0027Rex Login\u0027).first().json.result }}"
+                                                                                         "value":  "=Bearer YOUR_TOKEN_HERE $(\u0027Rex Login\u0027).first().json.result }}"
                                                                                      }
                                                                                  ]
                                                               },
@@ -201,7 +201,7 @@
                                                                                      },
                                                                                      {
                                                                                          "name":  "Authorization",
-                                                                                         "value":  "=Bearer {{ $(\u0027Rex Login\u0027).first().json.result }}"
+                                                                                         "value":  "=Bearer YOUR_TOKEN_HERE $(\u0027Rex Login\u0027).first().json.result }}"
                                                                                      }
                                                                                  ]
                                                               },
@@ -234,7 +234,7 @@
                                                                                      },
                                                                                      {
                                                                                          "name":  "Authorization",
-                                                                                         "value":  "=Bearer {{ $(\u0027Rex Login\u0027).first().json.result }}"
+                                                                                         "value":  "=Bearer YOUR_TOKEN_HERE $(\u0027Rex Login\u0027).first().json.result }}"
                                                                                      }
                                                                                  ]
                                                               },
@@ -267,7 +267,7 @@
                                                                                      },
                                                                                      {
                                                                                          "name":  "Authorization",
-                                                                                         "value":  "=Bearer {{ $(\u0027Rex Login\u0027).first().json.result }}"
+                                                                                         "value":  "=Bearer YOUR_TOKEN_HERE $(\u0027Rex Login\u0027).first().json.result }}"
                                                                                      }
                                                                                  ]
                                                               },
@@ -324,7 +324,7 @@
                                                                   "parameters":  [
                                                                                      {
                                                                                          "name":  "Authorization",
-                                                                                         "value":  "Bearer pit-6f6ca107-7bae-40b6-98da-4a97734767be"
+                                                                                         "value":  "Bearer YOUR_TOKEN_HERE"
                                                                                      },
                                                                                      {
                                                                                          "name":  "Version",
@@ -402,7 +402,7 @@
                                                                   "parameters":  [
                                                                                      {
                                                                                          "name":  "Authorization",
-                                                                                         "value":  "Bearer pit-6f6ca107-7bae-40b6-98da-4a97734767be"
+                                                                                         "value":  "Bearer YOUR_TOKEN_HERE"
                                                                                      },
                                                                                      {
                                                                                          "name":  "Version",
@@ -444,7 +444,7 @@
                                                                   "parameters":  [
                                                                                      {
                                                                                          "name":  "Authorization",
-                                                                                         "value":  "Bearer pit-6f6ca107-7bae-40b6-98da-4a97734767be"
+                                                                                         "value":  "Bearer YOUR_TOKEN_HERE"
                                                                                      },
                                                                                      {
                                                                                          "name":  "Version",
@@ -678,7 +678,7 @@
                                        "updatedAt":  "2026-05-11T01:48:12.434Z",
                                        "createdAt":  "2026-05-05T04:11:58.564Z",
                                        "id":  "5Pplijr4snMNDnab",
-                                       "name":  "Marc  Verdeflor \u003cvmarcelne@gmail.com\u003e",
+                                       "name":  "Marc  Verdeflor \your@email.com\u003e",
                                        "type":  "personal",
                                        "icon":  null,
                                        "description":  null,
@@ -733,7 +733,7 @@
                                                                                     },
                                                                "sendBody":  true,
                                                                "specifyBody":  "json",
-                                                               "jsonBody":  "={\n  \"email\": \"Info@purplecowrealestate.com.au\",\n  \"password\": \"ComplexPassword123$$$\",\n  \"account_id\": 0\n}",
+                                                               "jsonBody":  "={\n  \"email\": \"your@email.com\",\n  \"password\": \"ComplexPassword123$$$\",\n  \"account_id\": 0\n}",
                                                                "options":  {
 
                                                                            }
@@ -760,7 +760,7 @@
                                                                                                            },
                                                                                                            {
                                                                                                                "name":  "Authorization",
-                                                                                                               "value":  "=Bearer {{ $(\u0027Rex Login\u0027).first().json.result }}"
+                                                                                                               "value":  "=Bearer YOUR_TOKEN_HERE $(\u0027Rex Login\u0027).first().json.result }}"
                                                                                                            }
                                                                                                        ]
                                                                                     },
@@ -793,7 +793,7 @@
                                                                                                            },
                                                                                                            {
                                                                                                                "name":  "Authorization",
-                                                                                                               "value":  "=Bearer {{ $(\u0027Rex Login\u0027).first().json.result }}"
+                                                                                                               "value":  "=Bearer YOUR_TOKEN_HERE $(\u0027Rex Login\u0027).first().json.result }}"
                                                                                                            }
                                                                                                        ]
                                                                                     },
@@ -826,7 +826,7 @@
                                                                                                            },
                                                                                                            {
                                                                                                                "name":  "Authorization",
-                                                                                                               "value":  "=Bearer {{ $(\u0027Rex Login\u0027).first().json.result }}"
+                                                                                                               "value":  "=Bearer YOUR_TOKEN_HERE $(\u0027Rex Login\u0027).first().json.result }}"
                                                                                                            }
                                                                                                        ]
                                                                                     },
@@ -859,7 +859,7 @@
                                                                                                            },
                                                                                                            {
                                                                                                                "name":  "Authorization",
-                                                                                                               "value":  "=Bearer {{ $(\u0027Rex Login\u0027).first().json.result }}"
+                                                                                                               "value":  "=Bearer YOUR_TOKEN_HERE $(\u0027Rex Login\u0027).first().json.result }}"
                                                                                                            }
                                                                                                        ]
                                                                                     },
@@ -892,7 +892,7 @@
                                                                                                            },
                                                                                                            {
                                                                                                                "name":  "Authorization",
-                                                                                                               "value":  "=Bearer {{ $(\u0027Rex Login\u0027).first().json.result }}"
+                                                                                                               "value":  "=Bearer YOUR_TOKEN_HERE $(\u0027Rex Login\u0027).first().json.result }}"
                                                                                                            }
                                                                                                        ]
                                                                                     },
@@ -925,7 +925,7 @@
                                                                                                            },
                                                                                                            {
                                                                                                                "name":  "Authorization",
-                                                                                                               "value":  "=Bearer {{ $(\u0027Rex Login\u0027).first().json.result }}"
+                                                                                                               "value":  "=Bearer YOUR_TOKEN_HERE $(\u0027Rex Login\u0027).first().json.result }}"
                                                                                                            }
                                                                                                        ]
                                                                                     },
@@ -958,7 +958,7 @@
                                                                                                            },
                                                                                                            {
                                                                                                                "name":  "Authorization",
-                                                                                                               "value":  "=Bearer {{ $(\u0027Rex Login\u0027).first().json.result }}"
+                                                                                                               "value":  "=Bearer YOUR_TOKEN_HERE $(\u0027Rex Login\u0027).first().json.result }}"
                                                                                                            }
                                                                                                        ]
                                                                                     },
@@ -1015,7 +1015,7 @@
                                                                                         "parameters":  [
                                                                                                            {
                                                                                                                "name":  "Authorization",
-                                                                                                               "value":  "Bearer pit-6f6ca107-7bae-40b6-98da-4a97734767be"
+                                                                                                               "value":  "Bearer YOUR_TOKEN_HERE"
                                                                                                            },
                                                                                                            {
                                                                                                                "name":  "Version",
@@ -1093,7 +1093,7 @@
                                                                                         "parameters":  [
                                                                                                            {
                                                                                                                "name":  "Authorization",
-                                                                                                               "value":  "Bearer pit-6f6ca107-7bae-40b6-98da-4a97734767be"
+                                                                                                               "value":  "Bearer YOUR_TOKEN_HERE"
                                                                                                            },
                                                                                                            {
                                                                                                                "name":  "Version",
@@ -1135,7 +1135,7 @@
                                                                                         "parameters":  [
                                                                                                            {
                                                                                                                "name":  "Authorization",
-                                                                                                               "value":  "Bearer pit-6f6ca107-7bae-40b6-98da-4a97734767be"
+                                                                                                               "value":  "Bearer YOUR_TOKEN_HERE"
                                                                                                            },
                                                                                                            {
                                                                                                                "name":  "Version",
@@ -1359,3 +1359,4 @@
                                                      ]
                       }
 }
+

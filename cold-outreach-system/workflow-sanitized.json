@@ -231,7 +231,7 @@
                   },
                   {
                       "parameters":  {
-                                         "jsCode":  "const rows = $input.all();\nconst totalRows = rows.length;\nconst slot = ((totalRows - 1) % 16) + 1;\n\nconst mailboxes = [\n  { slot: 1,  from: \u0027denver@offshorestaff.space\u0027,  name: \u0027Denver\u0027,  company: \u0027Offshore Staff\u0027 },\n  { slot: 2,  from: \u0027denver@remotestaff.space\u0027,    name: \u0027Denver\u0027,  company: \u0027Remote Staff\u0027 },\n  { slot: 3,  from: \u0027kriza@remotetalent.space\u0027,    name: \u0027Kriza\u0027,   company: \u0027Remote Talent\u0027 },\n  { slot: 4,  from: \u0027denver@remoteteam.team\u0027,      name: \u0027Denver\u0027,  company: \u0027Remote Team\u0027 },\n  { slot: 5,  from: \u0027mae@staffremote.space\u0027,       name: \u0027Mae\u0027,     company: \u0027Staff Remote\u0027 },\n  { slot: 6,  from: \u0027denver@teamoffshore.team\u0027,    name: \u0027Denver\u0027,  company: \u0027Team Offshore\u0027 },\n  { slot: 7,  from: \u0027mae@offshorestaff.space\u0027,     name: \u0027Mae\u0027,     company: \u0027Offshore Staff\u0027 },\n  { slot: 8,  from: \u0027kriza@offshorestaff.space\u0027,   name: \u0027Kriza\u0027,   company: \u0027Offshore Staff\u0027 },\n  { slot: 9,  from: \u0027mae@remotestaff.space\u0027,       name: \u0027Mae\u0027,     company: \u0027Remote Staff\u0027 },\n  { slot: 10, from: \u0027kriza@remotestaff.space\u0027,     name: \u0027Kriza\u0027,   company: \u0027Remote Staff\u0027 },\n  { slot: 11, from: \u0027mae@remoteteam.team\u0027,         name: \u0027Mae\u0027,     company: \u0027Remote Team\u0027 },\n  { slot: 12, from: \u0027kriza@remoteteam.team\u0027,       name: \u0027Kriza\u0027,   company: \u0027Remote Team\u0027 },\n  { slot: 13, from: \u0027denver@staffremote.space\u0027,    name: \u0027Denver\u0027,  company: \u0027Staff Remote\u0027 },\n  { slot: 14, from: \u0027kriza@staffremote.space\u0027,     name: \u0027Kriza\u0027,   company: \u0027Staff Remote\u0027 },\n  { slot: 15, from: \u0027mae@teamoffshore.team\u0027,       name: \u0027Mae\u0027,     company: \u0027Team Offshore\u0027 },\n  { slot: 16, from: \u0027kriza@teamoffshore.team\u0027,     name: \u0027Kriza\u0027,   company: \u0027Team Offshore\u0027 }\n];\n\nconst mailbox = mailboxes[slot - 1];\nconst prevData = $(\u0027Parse Contact\u0027).first().json;\n\nconst subjects = [\n  \u0027quick question\u0027,\n  \u0027can I ask you something\u0027,\n  \u0027not sure who handles this\u0027,\n  \u0027random idea\u0027,\n  \u0027quick thought\u0027,\n  \u0027worth 5 minutes?\u0027,\n  \u0027one for you\u0027,\n  \u0027quick one\u0027,\n  \u0027not trying to sell you anything\u0027,\n  \u0027is this something you\\\u0027ve considered?\u0027,\n  \u0027built something for electricians\u0027,\n  \u0027random question\u0027,\n  \u0027no pressure, just curious\u0027,\n  \u0027quick favour to ask\u0027,\n  \u0027saw this and thought of you\u0027,\n  \u0027figured I\\\u0027d ask\u0027\n];\n\nconst bodies = [\n  \u0027Hey there,\\n\\nJust wondering if {{firstName}} is looking at a way to automate Google reviews. We\\\u0027ve recently built a system for a few electricians and was curious if it\\\u0027s something you\\\u0027ve considered.\\n\\nWe also automate other bits depending on what you need — missed calls, follow ups, quotes, whatever\\\u0027s eating your time. Just hit reply and let me know.\\n\\nCheers,\\nGunjan\u0027,\n  \u0027Hey there,\\n\\nRandom one — does {{firstName}} have a system for getting Google reviews after a job, or does it mostly rely on customers remembering?\\n\\nWe built something simple that handles this automatically. Also happy to look at other bits worth automating if reviews aren\\\u0027t the main thing slowing you down.\\n\\nReply and let me know either way.\\n\\nCheers,\\nGunjan\u0027,\n  \u0027Hey there,\\n\\nNot sure if you\\\u0027re the right person to ask, but wondering if {{firstName}} has looked into automating Google reviews. We\\\u0027ve recently built a system for a few electricians and thought it might be worth flagging.\\n\\nAlso happy to chat about other stuff worth automating in the business if this isn\\\u0027t the main thing on your radar.\\n\\nHit reply and point me in the right direction if it\\\u0027s someone else.\\n\\nCheers,\\nGunjan\u0027,\n  \u0027Hey there,\\n\\nRandom one — we build automation for trades, starting with automatic Google review requests after a job\\\u0027s done. No chasing, no admin.\\n\\nIf reviews aren\\\u0027t your biggest gap, happy to look at whatever is — missed calls, follow ups, quotes, that kind of thing.\\n\\nJust hit reply and let me know what\\\u0027d help most.\\n\\nCheers,\\nGunjan\u0027,\n  \u0027Hey there,\\n\\nHad a quick look at {{firstName}}\\\u0027s Google profile — solid ratings, but review count seems lower than it should be for how long you\\\u0027ve been running.\\n\\nWe built a system that fixes this automatically. Also do other automation depending on what you need — happy to hear what\\\u0027s actually a pain point for you.\\n\\nReply and I\\\u0027ll send more info.\\n\\nCheers,\\nGunjan\u0027,\n  \u0027Hey there,\\n\\nWe help electricians automate Google review requests after every job — no admin, no chasing. Fair, straightforward pricing, and tailored to how {{firstName}} actually runs.\\n\\nIf reviews aren\\\u0027t your biggest gap, tell us what is — we build around what\\\u0027s actually needed, not a fixed package.\\n\\nJust hit reply.\\n\\nCheers,\\nGunjan\u0027,\n  \u0027Hey there,\\n\\nSimple one — we automate Google review requests so they go out the moment a job\\\u0027s complete. No extra work for you or your team.\\n\\nWe also tailor the setup depending on what {{firstName}} actually needs automated — reviews are just where most people start.\\n\\nReply if you want a look.\\n\\nCheers,\\nGunjan\u0027,\n  \u0027Hey there,\\n\\nDoes {{firstName}} currently ask customers for Google reviews after a job, or is it more of a \"hope they remember\" situation?\\n\\nWe built a simple fix for this — automatic request, no manual follow-up needed. Also do other automation depending on what\\\u0027s actually useful for you.\\n\\nJust hit reply.\\n\\nCheers,\\nGunjan\u0027,\n  \u0027Hey there,\\n\\nGenuinely just want to show you something first. We built a system that automatically asks customers for a Google review once a job\\\u0027s done — real customers only, no gaming Google\\\u0027s rules.\\n\\nIf it\\\u0027s not useful, no dramas. If it is, happy to also look at other things worth automating for {{firstName}}.\\n\\nReply and I\\\u0027ll send more detail.\\n\\nCheers,\\nGunjan\u0027,\n  \u0027Hey there,\\n\\nJust wondering if {{firstName}} has looked into automating Google reviews. We\\\u0027ve recently built a system for a few electricians and thought it might be worth flagging.\\n\\nAlso happy to chat about other stuff worth automating in the business if this isn\\\u0027t the main thing on your radar.\\n\\nHit reply and let me know.\\n\\nCheers,\\nGunjan\u0027,\n  \u0027Hey there,\\n\\nWe recently put together an automated review system specifically for electricians — job\\\u0027s marked done, customer gets a text with the review link, no admin needed from your team.\\n\\nWondering if this is something {{firstName}} would find useful. We also tailor it to other stuff depending on what\\\u0027s actually eating your time.\\n\\nJust hit reply if you want a look.\\n\\nCheers,\\nGunjan\u0027,\n  \u0027Hey there,\\n\\nRather than pitch straight away — what\\\u0027s the most annoying manual task in the business right now? For a lot of electricians it\\\u0027s chasing reviews, but might be something else for {{firstName}}.\\n\\nWe build automation around whatever that actual pain point is. Reply and tell me what it is.\\n\\nCheers,\\nGunjan\u0027,\n  \u0027Hey there,\\n\\nWhen someone\\\u0027s got an electrical issue, they check Google Maps and call whoever looks most trustworthy — takes about 30 seconds, and reviews are the main thing they\\\u0027re scanning.\\n\\nWe automate the review-request side of this so {{firstName}} isn\\\u0027t relying on manual follow-up.\\n\\nReply if you want to see how it\\\u0027d work. No pressure either way.\\n\\nCheers,\\nGunjan\u0027,\n  \u0027Hey there,\\n\\nSmall favour — mind if I ask how {{firstName}} currently handles Google reviews? Manual ask on the job, or not really a system at all?\\n\\nWe built something that automates this, and depending what you say, might also be able to help with other stuff — missed calls, follow ups, quotes.\\n\\nReply whenever suits.\\n\\nCheers,\\nGunjan\u0027,\n  \u0027Hey there,\\n\\nSet up an automated review system for an electrician recently — job marked complete, customer gets a text with the review link, one gentle follow-up if no response in 48 hours. Reviews went from a trickle to steady flow within a month.\\n\\nWould something like this help {{firstName}}? Reply and I\\\u0027ll share more.\\n\\nCheers,\\nGunjan\u0027,\n  \u0027Hey there,\\n\\nFigured I\\\u0027d ask — is automating Google reviews something {{firstName}} has thought about? We built a simple system for this recently and it\\\u0027s been working well for a few electricians.\\n\\nFair pricing, and tailored to whatever you actually need automated — reviews are just where most people start.\\n\\nJust hit reply.\\n\\nCheers,\\nGunjan\u0027\n];\n\nconst subjectIdx = Math.floor(Math.random() * 16);\nconst bodyIdx = Math.floor(Math.random() * 16);\n\nconst fullName = prevData.fullName;\nconst emailBody = bodies[bodyIdx].replace(/\\{\\{firstName\\}\\}/g, fullName);\nconst subject = subjects[subjectIdx];\n\nreturn [{ json: { ...prevData, slot, fromEmail: mailbox.from, senderName: mailbox.name, company: mailbox.company, rowNumber: totalRows + 1, subject, emailBody } }];"
+                                         "jsCode":  "const rows = $input.all();\nconst totalRows = rows.length;\nconst slot = ((totalRows - 1) % 16) + 1;\n\nconst mailboxes = [\n  { slot: 1,  from: \your@email.com\u0027,  name: \u0027Denver\u0027,  company: \u0027Offshore Staff\u0027 },\n  { slot: 2,  from: \your@email.com\u0027,    name: \u0027Denver\u0027,  company: \u0027Remote Staff\u0027 },\n  { slot: 3,  from: \your@email.com\u0027,    name: \u0027Kriza\u0027,   company: \u0027Remote Talent\u0027 },\n  { slot: 4,  from: \your@email.com\u0027,      name: \u0027Denver\u0027,  company: \u0027Remote Team\u0027 },\n  { slot: 5,  from: \your@email.com\u0027,       name: \u0027Mae\u0027,     company: \u0027Staff Remote\u0027 },\n  { slot: 6,  from: \your@email.com\u0027,    name: \u0027Denver\u0027,  company: \u0027Team Offshore\u0027 },\n  { slot: 7,  from: \your@email.com\u0027,     name: \u0027Mae\u0027,     company: \u0027Offshore Staff\u0027 },\n  { slot: 8,  from: \your@email.com\u0027,   name: \u0027Kriza\u0027,   company: \u0027Offshore Staff\u0027 },\n  { slot: 9,  from: \your@email.com\u0027,       name: \u0027Mae\u0027,     company: \u0027Remote Staff\u0027 },\n  { slot: 10, from: \your@email.com\u0027,     name: \u0027Kriza\u0027,   company: \u0027Remote Staff\u0027 },\n  { slot: 11, from: \your@email.com\u0027,         name: \u0027Mae\u0027,     company: \u0027Remote Team\u0027 },\n  { slot: 12, from: \your@email.com\u0027,       name: \u0027Kriza\u0027,   company: \u0027Remote Team\u0027 },\n  { slot: 13, from: \your@email.com\u0027,    name: \u0027Denver\u0027,  company: \u0027Staff Remote\u0027 },\n  { slot: 14, from: \your@email.com\u0027,     name: \u0027Kriza\u0027,   company: \u0027Staff Remote\u0027 },\n  { slot: 15, from: \your@email.com\u0027,       name: \u0027Mae\u0027,     company: \u0027Team Offshore\u0027 },\n  { slot: 16, from: \your@email.com\u0027,     name: \u0027Kriza\u0027,   company: \u0027Team Offshore\u0027 }\n];\n\nconst mailbox = mailboxes[slot - 1];\nconst prevData = $(\u0027Parse Contact\u0027).first().json;\n\nconst subjects = [\n  \u0027quick question\u0027,\n  \u0027can I ask you something\u0027,\n  \u0027not sure who handles this\u0027,\n  \u0027random idea\u0027,\n  \u0027quick thought\u0027,\n  \u0027worth 5 minutes?\u0027,\n  \u0027one for you\u0027,\n  \u0027quick one\u0027,\n  \u0027not trying to sell you anything\u0027,\n  \u0027is this something you\\\u0027ve considered?\u0027,\n  \u0027built something for electricians\u0027,\n  \u0027random question\u0027,\n  \u0027no pressure, just curious\u0027,\n  \u0027quick favour to ask\u0027,\n  \u0027saw this and thought of you\u0027,\n  \u0027figured I\\\u0027d ask\u0027\n];\n\nconst bodies = [\n  \u0027Hey there,\\n\\nJust wondering if {{firstName}} is looking at a way to automate Google reviews. We\\\u0027ve recently built a system for a few electricians and was curious if it\\\u0027s something you\\\u0027ve considered.\\n\\nWe also automate other bits depending on what you need — missed calls, follow ups, quotes, whatever\\\u0027s eating your time. Just hit reply and let me know.\\n\\nCheers,\\nGunjan\u0027,\n  \u0027Hey there,\\n\\nRandom one — does {{firstName}} have a system for getting Google reviews after a job, or does it mostly rely on customers remembering?\\n\\nWe built something simple that handles this automatically. Also happy to look at other bits worth automating if reviews aren\\\u0027t the main thing slowing you down.\\n\\nReply and let me know either way.\\n\\nCheers,\\nGunjan\u0027,\n  \u0027Hey there,\\n\\nNot sure if you\\\u0027re the right person to ask, but wondering if {{firstName}} has looked into automating Google reviews. We\\\u0027ve recently built a system for a few electricians and thought it might be worth flagging.\\n\\nAlso happy to chat about other stuff worth automating in the business if this isn\\\u0027t the main thing on your radar.\\n\\nHit reply and point me in the right direction if it\\\u0027s someone else.\\n\\nCheers,\\nGunjan\u0027,\n  \u0027Hey there,\\n\\nRandom one — we build automation for trades, starting with automatic Google review requests after a job\\\u0027s done. No chasing, no admin.\\n\\nIf reviews aren\\\u0027t your biggest gap, happy to look at whatever is — missed calls, follow ups, quotes, that kind of thing.\\n\\nJust hit reply and let me know what\\\u0027d help most.\\n\\nCheers,\\nGunjan\u0027,\n  \u0027Hey there,\\n\\nHad a quick look at {{firstName}}\\\u0027s Google profile — solid ratings, but review count seems lower than it should be for how long you\\\u0027ve been running.\\n\\nWe built a system that fixes this automatically. Also do other automation depending on what you need — happy to hear what\\\u0027s actually a pain point for you.\\n\\nReply and I\\\u0027ll send more info.\\n\\nCheers,\\nGunjan\u0027,\n  \u0027Hey there,\\n\\nWe help electricians automate Google review requests after every job — no admin, no chasing. Fair, straightforward pricing, and tailored to how {{firstName}} actually runs.\\n\\nIf reviews aren\\\u0027t your biggest gap, tell us what is — we build around what\\\u0027s actually needed, not a fixed package.\\n\\nJust hit reply.\\n\\nCheers,\\nGunjan\u0027,\n  \u0027Hey there,\\n\\nSimple one — we automate Google review requests so they go out the moment a job\\\u0027s complete. No extra work for you or your team.\\n\\nWe also tailor the setup depending on what {{firstName}} actually needs automated — reviews are just where most people start.\\n\\nReply if you want a look.\\n\\nCheers,\\nGunjan\u0027,\n  \u0027Hey there,\\n\\nDoes {{firstName}} currently ask customers for Google reviews after a job, or is it more of a \"hope they remember\" situation?\\n\\nWe built a simple fix for this — automatic request, no manual follow-up needed. Also do other automation depending on what\\\u0027s actually useful for you.\\n\\nJust hit reply.\\n\\nCheers,\\nGunjan\u0027,\n  \u0027Hey there,\\n\\nGenuinely just want to show you something first. We built a system that automatically asks customers for a Google review once a job\\\u0027s done — real customers only, no gaming Google\\\u0027s rules.\\n\\nIf it\\\u0027s not useful, no dramas. If it is, happy to also look at other things worth automating for {{firstName}}.\\n\\nReply and I\\\u0027ll send more detail.\\n\\nCheers,\\nGunjan\u0027,\n  \u0027Hey there,\\n\\nJust wondering if {{firstName}} has looked into automating Google reviews. We\\\u0027ve recently built a system for a few electricians and thought it might be worth flagging.\\n\\nAlso happy to chat about other stuff worth automating in the business if this isn\\\u0027t the main thing on your radar.\\n\\nHit reply and let me know.\\n\\nCheers,\\nGunjan\u0027,\n  \u0027Hey there,\\n\\nWe recently put together an automated review system specifically for electricians — job\\\u0027s marked done, customer gets a text with the review link, no admin needed from your team.\\n\\nWondering if this is something {{firstName}} would find useful. We also tailor it to other stuff depending on what\\\u0027s actually eating your time.\\n\\nJust hit reply if you want a look.\\n\\nCheers,\\nGunjan\u0027,\n  \u0027Hey there,\\n\\nRather than pitch straight away — what\\\u0027s the most annoying manual task in the business right now? For a lot of electricians it\\\u0027s chasing reviews, but might be something else for {{firstName}}.\\n\\nWe build automation around whatever that actual pain point is. Reply and tell me what it is.\\n\\nCheers,\\nGunjan\u0027,\n  \u0027Hey there,\\n\\nWhen someone\\\u0027s got an electrical issue, they check Google Maps and call whoever looks most trustworthy — takes about 30 seconds, and reviews are the main thing they\\\u0027re scanning.\\n\\nWe automate the review-request side of this so {{firstName}} isn\\\u0027t relying on manual follow-up.\\n\\nReply if you want to see how it\\\u0027d work. No pressure either way.\\n\\nCheers,\\nGunjan\u0027,\n  \u0027Hey there,\\n\\nSmall favour — mind if I ask how {{firstName}} currently handles Google reviews? Manual ask on the job, or not really a system at all?\\n\\nWe built something that automates this, and depending what you say, might also be able to help with other stuff — missed calls, follow ups, quotes.\\n\\nReply whenever suits.\\n\\nCheers,\\nGunjan\u0027,\n  \u0027Hey there,\\n\\nSet up an automated review system for an electrician recently — job marked complete, customer gets a text with the review link, one gentle follow-up if no response in 48 hours. Reviews went from a trickle to steady flow within a month.\\n\\nWould something like this help {{firstName}}? Reply and I\\\u0027ll share more.\\n\\nCheers,\\nGunjan\u0027,\n  \u0027Hey there,\\n\\nFigured I\\\u0027d ask — is automating Google reviews something {{firstName}} has thought about? We built a simple system for this recently and it\\\u0027s been working well for a few electricians.\\n\\nFair pricing, and tailored to whatever you actually need automated — reviews are just where most people start.\\n\\nJust hit reply.\\n\\nCheers,\\nGunjan\u0027\n];\n\nconst subjectIdx = Math.floor(Math.random() * 16);\nconst bodyIdx = Math.floor(Math.random() * 16);\n\nconst fullName = prevData.fullName;\nconst emailBody = bodies[bodyIdx].replace(/\\{\\{firstName\\}\\}/g, fullName);\nconst subject = subjects[subjectIdx];\n\nreturn [{ json: { ...prevData, slot, fromEmail: mailbox.from, senderName: mailbox.name, company: mailbox.company, rowNumber: totalRows + 1, subject, emailBody } }];"
                                      },
                       "id": "REDACTED",
                       "name":  "Pick Mailbox",
@@ -599,14 +599,14 @@
                   },
                   {
                       "parameters":  {
-                                         "fromEmail":  "denver@offshorestaff.space",
+                                         "fromEmail":  "your@email.com",
                                          "toEmail":  "={{ $json.email }}",
                                          "subject":  "={{ $json.subject }}",
                                          "emailFormat":  "text",
                                          "text":  "={{ $json.emailBody }}",
                                          "options":  {
                                                          "appendAttribution":  false,
-                                                         "replyTo":  "ineedhelp@datasecureva.tech"
+                                                         "replyTo":  "your@email.com"
                                                      }
                                      },
                       "id": "REDACTED",
@@ -628,14 +628,14 @@
                   },
                   {
                       "parameters":  {
-                                         "fromEmail":  "denver@remotestaff.space",
+                                         "fromEmail":  "your@email.com",
                                          "toEmail":  "={{ $json.email }}",
                                          "subject":  "={{ $json.subject }}",
                                          "emailFormat":  "text",
                                          "text":  "={{ $json.emailBody }}",
                                          "options":  {
                                                          "appendAttribution":  false,
-                                                         "replyTo":  "ineedhelp@datasecureva.tech"
+                                                         "replyTo":  "your@email.com"
                                                      }
                                      },
                       "id": "REDACTED",
@@ -657,14 +657,14 @@
                   },
                   {
                       "parameters":  {
-                                         "fromEmail":  "kriza@remotetalent.space",
+                                         "fromEmail":  "your@email.com",
                                          "toEmail":  "={{ $json.email }}",
                                          "subject":  "={{ $json.subject }}",
                                          "emailFormat":  "text",
                                          "text":  "={{ $json.emailBody }}",
                                          "options":  {
                                                          "appendAttribution":  false,
-                                                         "replyTo":  "ineedhelp@datasecureva.tech"
+                                                         "replyTo":  "your@email.com"
                                                      }
                                      },
                       "id": "REDACTED",
@@ -686,14 +686,14 @@
                   },
                   {
                       "parameters":  {
-                                         "fromEmail":  "denver@remoteteam.team",
+                                         "fromEmail":  "your@email.com",
                                          "toEmail":  "={{ $json.email }}",
                                          "subject":  "={{ $json.subject }}",
                                          "emailFormat":  "text",
                                          "text":  "={{ $json.emailBody }}",
                                          "options":  {
                                                          "appendAttribution":  false,
-                                                         "replyTo":  "ineedhelp@datasecureva.tech"
+                                                         "replyTo":  "your@email.com"
                                                      }
                                      },
                       "id": "REDACTED",
@@ -714,14 +714,14 @@
                   },
                   {
                       "parameters":  {
-                                         "fromEmail":  "mae@staffremote.space",
+                                         "fromEmail":  "your@email.com",
                                          "toEmail":  "={{ $json.email }}",
                                          "subject":  "={{ $json.subject }}",
                                          "emailFormat":  "text",
                                          "text":  "={{ $json.emailBody }}",
                                          "options":  {
                                                          "appendAttribution":  false,
-                                                         "replyTo":  "ineedhelp@datasecureva.tech"
+                                                         "replyTo":  "your@email.com"
                                                      }
                                      },
                       "id": "REDACTED",
@@ -742,14 +742,14 @@
                   },
                   {
                       "parameters":  {
-                                         "fromEmail":  "denver@teamoffshore.team",
+                                         "fromEmail":  "your@email.com",
                                          "toEmail":  "={{ $json.email }}",
                                          "subject":  "={{ $json.subject }}",
                                          "emailFormat":  "text",
                                          "text":  "={{ $json.emailBody }}",
                                          "options":  {
                                                          "appendAttribution":  false,
-                                                         "replyTo":  "ineedhelp@datasecureva.tech"
+                                                         "replyTo":  "your@email.com"
                                                      }
                                      },
                       "id": "REDACTED",
@@ -770,14 +770,14 @@
                   },
                   {
                       "parameters":  {
-                                         "fromEmail":  "mae@offshorestaff.space",
+                                         "fromEmail":  "your@email.com",
                                          "toEmail":  "={{ $json.email }}",
                                          "subject":  "={{ $json.subject }}",
                                          "emailFormat":  "text",
                                          "text":  "={{ $json.emailBody }}",
                                          "options":  {
                                                          "appendAttribution":  false,
-                                                         "replyTo":  "ineedhelp@datasecureva.tech"
+                                                         "replyTo":  "your@email.com"
                                                      }
                                      },
                       "id": "REDACTED",
@@ -798,14 +798,14 @@
                   },
                   {
                       "parameters":  {
-                                         "fromEmail":  "kriza@offshorestaff.space",
+                                         "fromEmail":  "your@email.com",
                                          "toEmail":  "={{ $json.email }}",
                                          "subject":  "={{ $json.subject }}",
                                          "emailFormat":  "text",
                                          "text":  "={{ $json.emailBody }}",
                                          "options":  {
                                                          "appendAttribution":  false,
-                                                         "replyTo":  "ineedhelp@datasecureva.tech"
+                                                         "replyTo":  "your@email.com"
                                                      }
                                      },
                       "id": "REDACTED",
@@ -826,14 +826,14 @@
                   },
                   {
                       "parameters":  {
-                                         "fromEmail":  "mae@remotestaff.space",
+                                         "fromEmail":  "your@email.com",
                                          "toEmail":  "={{ $json.email }}",
                                          "subject":  "={{ $json.subject }}",
                                          "emailFormat":  "text",
                                          "text":  "={{ $json.emailBody }}",
                                          "options":  {
                                                          "appendAttribution":  false,
-                                                         "replyTo":  "ineedhelp@datasecureva.tech"
+                                                         "replyTo":  "your@email.com"
                                                      }
                                      },
                       "id": "REDACTED",
@@ -854,14 +854,14 @@
                   },
                   {
                       "parameters":  {
-                                         "fromEmail":  "kriza@remotestaff.space",
+                                         "fromEmail":  "your@email.com",
                                          "toEmail":  "={{ $json.email }}",
                                          "subject":  "={{ $json.subject }}",
                                          "emailFormat":  "text",
                                          "text":  "={{ $json.emailBody }}",
                                          "options":  {
                                                          "appendAttribution":  false,
-                                                         "replyTo":  "ineedhelp@datasecureva.tech"
+                                                         "replyTo":  "your@email.com"
                                                      }
                                      },
                       "id": "REDACTED",
@@ -882,14 +882,14 @@
                   },
                   {
                       "parameters":  {
-                                         "fromEmail":  "mae@remoteteam.team",
+                                         "fromEmail":  "your@email.com",
                                          "toEmail":  "={{ $json.email }}",
                                          "subject":  "={{ $json.subject }}",
                                          "emailFormat":  "text",
                                          "text":  "={{ $json.emailBody }}",
                                          "options":  {
                                                          "appendAttribution":  false,
-                                                         "replyTo":  "ineedhelp@datasecureva.tech"
+                                                         "replyTo":  "your@email.com"
                                                      }
                                      },
                       "id": "REDACTED",
@@ -910,14 +910,14 @@
                   },
                   {
                       "parameters":  {
-                                         "fromEmail":  "kriza@remoteteam.team",
+                                         "fromEmail":  "your@email.com",
                                          "toEmail":  "={{ $json.email }}",
                                          "subject":  "={{ $json.subject }}",
                                          "emailFormat":  "text",
                                          "text":  "={{ $json.emailBody }}",
                                          "options":  {
                                                          "appendAttribution":  false,
-                                                         "replyTo":  "ineedhelp@datasecureva.tech"
+                                                         "replyTo":  "your@email.com"
                                                      }
                                      },
                       "id": "REDACTED",
@@ -938,14 +938,14 @@
                   },
                   {
                       "parameters":  {
-                                         "fromEmail":  "denver@staffremote.space",
+                                         "fromEmail":  "your@email.com",
                                          "toEmail":  "={{ $json.email }}",
                                          "subject":  "={{ $json.subject }}",
                                          "emailFormat":  "text",
                                          "text":  "={{ $json.emailBody }}",
                                          "options":  {
                                                          "appendAttribution":  false,
-                                                         "replyTo":  "ineedhelp@datasecureva.tech"
+                                                         "replyTo":  "your@email.com"
                                                      }
                                      },
                       "id": "REDACTED",
@@ -966,14 +966,14 @@
                   },
                   {
                       "parameters":  {
-                                         "fromEmail":  "kriza@staffremote.space",
+                                         "fromEmail":  "your@email.com",
                                          "toEmail":  "={{ $json.email }}",
                                          "subject":  "={{ $json.subject }}",
                                          "emailFormat":  "text",
                                          "text":  "={{ $json.emailBody }}",
                                          "options":  {
                                                          "appendAttribution":  false,
-                                                         "replyTo":  "ineedhelp@datasecureva.tech"
+                                                         "replyTo":  "your@email.com"
                                                      }
                                      },
                       "id": "REDACTED",
@@ -994,14 +994,14 @@
                   },
                   {
                       "parameters":  {
-                                         "fromEmail":  "mae@teamoffshore.team",
+                                         "fromEmail":  "your@email.com",
                                          "toEmail":  "={{ $json.email }}",
                                          "subject":  "={{ $json.subject }}",
                                          "emailFormat":  "text",
                                          "text":  "={{ $json.emailBody }}",
                                          "options":  {
                                                          "appendAttribution":  false,
-                                                         "replyTo":  "ineedhelp@datasecureva.tech"
+                                                         "replyTo":  "your@email.com"
                                                      }
                                      },
                       "id": "REDACTED",
@@ -1022,14 +1022,14 @@
                   },
                   {
                       "parameters":  {
-                                         "fromEmail":  "kriza@teamoffshore.team",
+                                         "fromEmail":  "your@email.com",
                                          "toEmail":  "={{ $json.email }}",
                                          "subject":  "={{ $json.subject }}",
                                          "emailFormat":  "text",
                                          "text":  "={{ $json.emailBody }}",
                                          "options":  {
                                                          "appendAttribution":  false,
-                                                         "replyTo":  "ineedhelp@datasecureva.tech"
+                                                         "replyTo":  "your@email.com"
                                                      }
                                      },
                       "id": "REDACTED",
@@ -1204,7 +1204,7 @@
                                                                   "parameters":  [
                                                                                      {
                                                                                          "name":  "Authorization",
-                                                                                         "value":  "Bearer pit-6f6ca107-7bae-40b6-98da-4a97734767be"
+                                                                                         "value":  "Bearer YOUR_TOKEN_HERE"
                                                                                      },
                                                                                      {
                                                                                          "name":  "Version",
@@ -1241,7 +1241,7 @@
                                                                   "parameters":  [
                                                                                      {
                                                                                          "name":  "Authorization",
-                                                                                         "value":  "Bearer pit-6f6ca107-7bae-40b6-98da-4a97734767be"
+                                                                                         "value":  "Bearer YOUR_TOKEN_HERE"
                                                                                      },
                                                                                      {
                                                                                          "name":  "Version",
@@ -1681,7 +1681,7 @@
                                        "updatedAt":  "2026-05-11T01:48:12.434Z",
                                        "createdAt":  "2026-05-05T04:11:58.564Z",
                                        "id":  "5Pplijr4snMNDnab",
-                                       "name":  "Marc  Verdeflor \u003cvmarcelne@gmail.com\u003e",
+                                       "name":  "Marc  Verdeflor \your@email.com\u003e",
                                        "type":  "personal",
                                        "icon":  null,
                                        "description":  null,
@@ -1925,7 +1925,7 @@
                                         },
                                         {
                                             "parameters":  {
-                                                               "jsCode":  "const rows = $input.all();\nconst totalRows = rows.length;\nconst slot = ((totalRows - 1) % 16) + 1;\n\nconst mailboxes = [\n  { slot: 1,  from: \u0027denver@offshorestaff.space\u0027,  name: \u0027Denver\u0027,  company: \u0027Offshore Staff\u0027 },\n  { slot: 2,  from: \u0027denver@remotestaff.space\u0027,    name: \u0027Denver\u0027,  company: \u0027Remote Staff\u0027 },\n  { slot: 3,  from: \u0027kriza@remotetalent.space\u0027,    name: \u0027Kriza\u0027,   company: \u0027Remote Talent\u0027 },\n  { slot: 4,  from: \u0027denver@remoteteam.team\u0027,      name: \u0027Denver\u0027,  company: \u0027Remote Team\u0027 },\n  { slot: 5,  from: \u0027mae@staffremote.space\u0027,       name: \u0027Mae\u0027,     company: \u0027Staff Remote\u0027 },\n  { slot: 6,  from: \u0027denver@teamoffshore.team\u0027,    name: \u0027Denver\u0027,  company: \u0027Team Offshore\u0027 },\n  { slot: 7,  from: \u0027mae@offshorestaff.space\u0027,     name: \u0027Mae\u0027,     company: \u0027Offshore Staff\u0027 },\n  { slot: 8,  from: \u0027kriza@offshorestaff.space\u0027,   name: \u0027Kriza\u0027,   company: \u0027Offshore Staff\u0027 },\n  { slot: 9,  from: \u0027mae@remotestaff.space\u0027,       name: \u0027Mae\u0027,     company: \u0027Remote Staff\u0027 },\n  { slot: 10, from: \u0027kriza@remotestaff.space\u0027,     name: \u0027Kriza\u0027,   company: \u0027Remote Staff\u0027 },\n  { slot: 11, from: \u0027mae@remoteteam.team\u0027,         name: \u0027Mae\u0027,     company: \u0027Remote Team\u0027 },\n  { slot: 12, from: \u0027kriza@remoteteam.team\u0027,       name: \u0027Kriza\u0027,   company: \u0027Remote Team\u0027 },\n  { slot: 13, from: \u0027denver@staffremote.space\u0027,    name: \u0027Denver\u0027,  company: \u0027Staff Remote\u0027 },\n  { slot: 14, from: \u0027kriza@staffremote.space\u0027,     name: \u0027Kriza\u0027,   company: \u0027Staff Remote\u0027 },\n  { slot: 15, from: \u0027mae@teamoffshore.team\u0027,       name: \u0027Mae\u0027,     company: \u0027Team Offshore\u0027 },\n  { slot: 16, from: \u0027kriza@teamoffshore.team\u0027,     name: \u0027Kriza\u0027,   company: \u0027Team Offshore\u0027 }\n];\n\nconst mailbox = mailboxes[slot - 1];\nconst prevData = $(\u0027Parse Contact\u0027).first().json;\n\nconst subjects = [\n  \u0027quick question\u0027,\n  \u0027can I ask you something\u0027,\n  \u0027not sure who handles this\u0027,\n  \u0027random idea\u0027,\n  \u0027quick thought\u0027,\n  \u0027worth 5 minutes?\u0027,\n  \u0027one for you\u0027,\n  \u0027quick one\u0027,\n  \u0027not trying to sell you anything\u0027,\n  \u0027is this something you\\\u0027ve considered?\u0027,\n  \u0027built something for electricians\u0027,\n  \u0027random question\u0027,\n  \u0027no pressure, just curious\u0027,\n  \u0027quick favour to ask\u0027,\n  \u0027saw this and thought of you\u0027,\n  \u0027figured I\\\u0027d ask\u0027\n];\n\nconst bodies = [\n  \u0027Hey there,\\n\\nJust wondering if {{firstName}} is looking at a way to automate Google reviews. We\\\u0027ve recently built a system for a few electricians and was curious if it\\\u0027s something you\\\u0027ve considered.\\n\\nWe also automate other bits depending on what you need — missed calls, follow ups, quotes, whatever\\\u0027s eating your time. Just hit reply and let me know.\\n\\nCheers,\\nGunjan\u0027,\n  \u0027Hey there,\\n\\nRandom one — does {{firstName}} have a system for getting Google reviews after a job, or does it mostly rely on customers remembering?\\n\\nWe built something simple that handles this automatically. Also happy to look at other bits worth automating if reviews aren\\\u0027t the main thing slowing you down.\\n\\nReply and let me know either way.\\n\\nCheers,\\nGunjan\u0027,\n  \u0027Hey there,\\n\\nNot sure if you\\\u0027re the right person to ask, but wondering if {{firstName}} has looked into automating Google reviews. We\\\u0027ve recently built a system for a few electricians and thought it might be worth flagging.\\n\\nAlso happy to chat about other stuff worth automating in the business if this isn\\\u0027t the main thing on your radar.\\n\\nHit reply and point me in the right direction if it\\\u0027s someone else.\\n\\nCheers,\\nGunjan\u0027,\n  \u0027Hey there,\\n\\nRandom one — we build automation for trades, starting with automatic Google review requests after a job\\\u0027s done. No chasing, no admin.\\n\\nIf reviews aren\\\u0027t your biggest gap, happy to look at whatever is — missed calls, follow ups, quotes, that kind of thing.\\n\\nJust hit reply and let me know what\\\u0027d help most.\\n\\nCheers,\\nGunjan\u0027,\n  \u0027Hey there,\\n\\nHad a quick look at {{firstName}}\\\u0027s Google profile — solid ratings, but review count seems lower than it should be for how long you\\\u0027ve been running.\\n\\nWe built a system that fixes this automatically. Also do other automation depending on what you need — happy to hear what\\\u0027s actually a pain point for you.\\n\\nReply and I\\\u0027ll send more info.\\n\\nCheers,\\nGunjan\u0027,\n  \u0027Hey there,\\n\\nWe help electricians automate Google review requests after every job — no admin, no chasing. Fair, straightforward pricing, and tailored to how {{firstName}} actually runs.\\n\\nIf reviews aren\\\u0027t your biggest gap, tell us what is — we build around what\\\u0027s actually needed, not a fixed package.\\n\\nJust hit reply.\\n\\nCheers,\\nGunjan\u0027,\n  \u0027Hey there,\\n\\nSimple one — we automate Google review requests so they go out the moment a job\\\u0027s complete. No extra work for you or your team.\\n\\nWe also tailor the setup depending on what {{firstName}} actually needs automated — reviews are just where most people start.\\n\\nReply if you want a look.\\n\\nCheers,\\nGunjan\u0027,\n  \u0027Hey there,\\n\\nDoes {{firstName}} currently ask customers for Google reviews after a job, or is it more of a \"hope they remember\" situation?\\n\\nWe built a simple fix for this — automatic request, no manual follow-up needed. Also do other automation depending on what\\\u0027s actually useful for you.\\n\\nJust hit reply.\\n\\nCheers,\\nGunjan\u0027,\n  \u0027Hey there,\\n\\nGenuinely just want to show you something first. We built a system that automatically asks customers for a Google review once a job\\\u0027s done — real customers only, no gaming Google\\\u0027s rules.\\n\\nIf it\\\u0027s not useful, no dramas. If it is, happy to also look at other things worth automating for {{firstName}}.\\n\\nReply and I\\\u0027ll send more detail.\\n\\nCheers,\\nGunjan\u0027,\n  \u0027Hey there,\\n\\nJust wondering if {{firstName}} has looked into automating Google reviews. We\\\u0027ve recently built a system for a few electricians and thought it might be worth flagging.\\n\\nAlso happy to chat about other stuff worth automating in the business if this isn\\\u0027t the main thing on your radar.\\n\\nHit reply and let me know.\\n\\nCheers,\\nGunjan\u0027,\n  \u0027Hey there,\\n\\nWe recently put together an automated review system specifically for electricians — job\\\u0027s marked done, customer gets a text with the review link, no admin needed from your team.\\n\\nWondering if this is something {{firstName}} would find useful. We also tailor it to other stuff depending on what\\\u0027s actually eating your time.\\n\\nJust hit reply if you want a look.\\n\\nCheers,\\nGunjan\u0027,\n  \u0027Hey there,\\n\\nRather than pitch straight away — what\\\u0027s the most annoying manual task in the business right now? For a lot of electricians it\\\u0027s chasing reviews, but might be something else for {{firstName}}.\\n\\nWe build automation around whatever that actual pain point is. Reply and tell me what it is.\\n\\nCheers,\\nGunjan\u0027,\n  \u0027Hey there,\\n\\nWhen someone\\\u0027s got an electrical issue, they check Google Maps and call whoever looks most trustworthy — takes about 30 seconds, and reviews are the main thing they\\\u0027re scanning.\\n\\nWe automate the review-request side of this so {{firstName}} isn\\\u0027t relying on manual follow-up.\\n\\nReply if you want to see how it\\\u0027d work. No pressure either way.\\n\\nCheers,\\nGunjan\u0027,\n  \u0027Hey there,\\n\\nSmall favour — mind if I ask how {{firstName}} currently handles Google reviews? Manual ask on the job, or not really a system at all?\\n\\nWe built something that automates this, and depending what you say, might also be able to help with other stuff — missed calls, follow ups, quotes.\\n\\nReply whenever suits.\\n\\nCheers,\\nGunjan\u0027,\n  \u0027Hey there,\\n\\nSet up an automated review system for an electrician recently — job marked complete, customer gets a text with the review link, one gentle follow-up if no response in 48 hours. Reviews went from a trickle to steady flow within a month.\\n\\nWould something like this help {{firstName}}? Reply and I\\\u0027ll share more.\\n\\nCheers,\\nGunjan\u0027,\n  \u0027Hey there,\\n\\nFigured I\\\u0027d ask — is automating Google reviews something {{firstName}} has thought about? We built a simple system for this recently and it\\\u0027s been working well for a few electricians.\\n\\nFair pricing, and tailored to whatever you actually need automated — reviews are just where most people start.\\n\\nJust hit reply.\\n\\nCheers,\\nGunjan\u0027\n];\n\nconst subjectIdx = Math.floor(Math.random() * 16);\nconst bodyIdx = Math.floor(Math.random() * 16);\n\nconst fullName = prevData.fullName;\nconst emailBody = bodies[bodyIdx].replace(/\\{\\{firstName\\}\\}/g, fullName);\nconst subject = subjects[subjectIdx];\n\nreturn [{ json: { ...prevData, slot, fromEmail: mailbox.from, senderName: mailbox.name, company: mailbox.company, rowNumber: totalRows + 1, subject, emailBody } }];"
+                                                               "jsCode":  "const rows = $input.all();\nconst totalRows = rows.length;\nconst slot = ((totalRows - 1) % 16) + 1;\n\nconst mailboxes = [\n  { slot: 1,  from: \your@email.com\u0027,  name: \u0027Denver\u0027,  company: \u0027Offshore Staff\u0027 },\n  { slot: 2,  from: \your@email.com\u0027,    name: \u0027Denver\u0027,  company: \u0027Remote Staff\u0027 },\n  { slot: 3,  from: \your@email.com\u0027,    name: \u0027Kriza\u0027,   company: \u0027Remote Talent\u0027 },\n  { slot: 4,  from: \your@email.com\u0027,      name: \u0027Denver\u0027,  company: \u0027Remote Team\u0027 },\n  { slot: 5,  from: \your@email.com\u0027,       name: \u0027Mae\u0027,     company: \u0027Staff Remote\u0027 },\n  { slot: 6,  from: \your@email.com\u0027,    name: \u0027Denver\u0027,  company: \u0027Team Offshore\u0027 },\n  { slot: 7,  from: \your@email.com\u0027,     name: \u0027Mae\u0027,     company: \u0027Offshore Staff\u0027 },\n  { slot: 8,  from: \your@email.com\u0027,   name: \u0027Kriza\u0027,   company: \u0027Offshore Staff\u0027 },\n  { slot: 9,  from: \your@email.com\u0027,       name: \u0027Mae\u0027,     company: \u0027Remote Staff\u0027 },\n  { slot: 10, from: \your@email.com\u0027,     name: \u0027Kriza\u0027,   company: \u0027Remote Staff\u0027 },\n  { slot: 11, from: \your@email.com\u0027,         name: \u0027Mae\u0027,     company: \u0027Remote Team\u0027 },\n  { slot: 12, from: \your@email.com\u0027,       name: \u0027Kriza\u0027,   company: \u0027Remote Team\u0027 },\n  { slot: 13, from: \your@email.com\u0027,    name: \u0027Denver\u0027,  company: \u0027Staff Remote\u0027 },\n  { slot: 14, from: \your@email.com\u0027,     name: \u0027Kriza\u0027,   company: \u0027Staff Remote\u0027 },\n  { slot: 15, from: \your@email.com\u0027,       name: \u0027Mae\u0027,     company: \u0027Team Offshore\u0027 },\n  { slot: 16, from: \your@email.com\u0027,     name: \u0027Kriza\u0027,   company: \u0027Team Offshore\u0027 }\n];\n\nconst mailbox = mailboxes[slot - 1];\nconst prevData = $(\u0027Parse Contact\u0027).first().json;\n\nconst subjects = [\n  \u0027quick question\u0027,\n  \u0027can I ask you something\u0027,\n  \u0027not sure who handles this\u0027,\n  \u0027random idea\u0027,\n  \u0027quick thought\u0027,\n  \u0027worth 5 minutes?\u0027,\n  \u0027one for you\u0027,\n  \u0027quick one\u0027,\n  \u0027not trying to sell you anything\u0027,\n  \u0027is this something you\\\u0027ve considered?\u0027,\n  \u0027built something for electricians\u0027,\n  \u0027random question\u0027,\n  \u0027no pressure, just curious\u0027,\n  \u0027quick favour to ask\u0027,\n  \u0027saw this and thought of you\u0027,\n  \u0027figured I\\\u0027d ask\u0027\n];\n\nconst bodies = [\n  \u0027Hey there,\\n\\nJust wondering if {{firstName}} is looking at a way to automate Google reviews. We\\\u0027ve recently built a system for a few electricians and was curious if it\\\u0027s something you\\\u0027ve considered.\\n\\nWe also automate other bits depending on what you need — missed calls, follow ups, quotes, whatever\\\u0027s eating your time. Just hit reply and let me know.\\n\\nCheers,\\nGunjan\u0027,\n  \u0027Hey there,\\n\\nRandom one — does {{firstName}} have a system for getting Google reviews after a job, or does it mostly rely on customers remembering?\\n\\nWe built something simple that handles this automatically. Also happy to look at other bits worth automating if reviews aren\\\u0027t the main thing slowing you down.\\n\\nReply and let me know either way.\\n\\nCheers,\\nGunjan\u0027,\n  \u0027Hey there,\\n\\nNot sure if you\\\u0027re the right person to ask, but wondering if {{firstName}} has looked into automating Google reviews. We\\\u0027ve recently built a system for a few electricians and thought it might be worth flagging.\\n\\nAlso happy to chat about other stuff worth automating in the business if this isn\\\u0027t the main thing on your radar.\\n\\nHit reply and point me in the right direction if it\\\u0027s someone else.\\n\\nCheers,\\nGunjan\u0027,\n  \u0027Hey there,\\n\\nRandom one — we build automation for trades, starting with automatic Google review requests after a job\\\u0027s done. No chasing, no admin.\\n\\nIf reviews aren\\\u0027t your biggest gap, happy to look at whatever is — missed calls, follow ups, quotes, that kind of thing.\\n\\nJust hit reply and let me know what\\\u0027d help most.\\n\\nCheers,\\nGunjan\u0027,\n  \u0027Hey there,\\n\\nHad a quick look at {{firstName}}\\\u0027s Google profile — solid ratings, but review count seems lower than it should be for how long you\\\u0027ve been running.\\n\\nWe built a system that fixes this automatically. Also do other automation depending on what you need — happy to hear what\\\u0027s actually a pain point for you.\\n\\nReply and I\\\u0027ll send more info.\\n\\nCheers,\\nGunjan\u0027,\n  \u0027Hey there,\\n\\nWe help electricians automate Google review requests after every job — no admin, no chasing. Fair, straightforward pricing, and tailored to how {{firstName}} actually runs.\\n\\nIf reviews aren\\\u0027t your biggest gap, tell us what is — we build around what\\\u0027s actually needed, not a fixed package.\\n\\nJust hit reply.\\n\\nCheers,\\nGunjan\u0027,\n  \u0027Hey there,\\n\\nSimple one — we automate Google review requests so they go out the moment a job\\\u0027s complete. No extra work for you or your team.\\n\\nWe also tailor the setup depending on what {{firstName}} actually needs automated — reviews are just where most people start.\\n\\nReply if you want a look.\\n\\nCheers,\\nGunjan\u0027,\n  \u0027Hey there,\\n\\nDoes {{firstName}} currently ask customers for Google reviews after a job, or is it more of a \"hope they remember\" situation?\\n\\nWe built a simple fix for this — automatic request, no manual follow-up needed. Also do other automation depending on what\\\u0027s actually useful for you.\\n\\nJust hit reply.\\n\\nCheers,\\nGunjan\u0027,\n  \u0027Hey there,\\n\\nGenuinely just want to show you something first. We built a system that automatically asks customers for a Google review once a job\\\u0027s done — real customers only, no gaming Google\\\u0027s rules.\\n\\nIf it\\\u0027s not useful, no dramas. If it is, happy to also look at other things worth automating for {{firstName}}.\\n\\nReply and I\\\u0027ll send more detail.\\n\\nCheers,\\nGunjan\u0027,\n  \u0027Hey there,\\n\\nJust wondering if {{firstName}} has looked into automating Google reviews. We\\\u0027ve recently built a system for a few electricians and thought it might be worth flagging.\\n\\nAlso happy to chat about other stuff worth automating in the business if this isn\\\u0027t the main thing on your radar.\\n\\nHit reply and let me know.\\n\\nCheers,\\nGunjan\u0027,\n  \u0027Hey there,\\n\\nWe recently put together an automated review system specifically for electricians — job\\\u0027s marked done, customer gets a text with the review link, no admin needed from your team.\\n\\nWondering if this is something {{firstName}} would find useful. We also tailor it to other stuff depending on what\\\u0027s actually eating your time.\\n\\nJust hit reply if you want a look.\\n\\nCheers,\\nGunjan\u0027,\n  \u0027Hey there,\\n\\nRather than pitch straight away — what\\\u0027s the most annoying manual task in the business right now? For a lot of electricians it\\\u0027s chasing reviews, but might be something else for {{firstName}}.\\n\\nWe build automation around whatever that actual pain point is. Reply and tell me what it is.\\n\\nCheers,\\nGunjan\u0027,\n  \u0027Hey there,\\n\\nWhen someone\\\u0027s got an electrical issue, they check Google Maps and call whoever looks most trustworthy — takes about 30 seconds, and reviews are the main thing they\\\u0027re scanning.\\n\\nWe automate the review-request side of this so {{firstName}} isn\\\u0027t relying on manual follow-up.\\n\\nReply if you want to see how it\\\u0027d work. No pressure either way.\\n\\nCheers,\\nGunjan\u0027,\n  \u0027Hey there,\\n\\nSmall favour — mind if I ask how {{firstName}} currently handles Google reviews? Manual ask on the job, or not really a system at all?\\n\\nWe built something that automates this, and depending what you say, might also be able to help with other stuff — missed calls, follow ups, quotes.\\n\\nReply whenever suits.\\n\\nCheers,\\nGunjan\u0027,\n  \u0027Hey there,\\n\\nSet up an automated review system for an electrician recently — job marked complete, customer gets a text with the review link, one gentle follow-up if no response in 48 hours. Reviews went from a trickle to steady flow within a month.\\n\\nWould something like this help {{firstName}}? Reply and I\\\u0027ll share more.\\n\\nCheers,\\nGunjan\u0027,\n  \u0027Hey there,\\n\\nFigured I\\\u0027d ask — is automating Google reviews something {{firstName}} has thought about? We built a simple system for this recently and it\\\u0027s been working well for a few electricians.\\n\\nFair pricing, and tailored to whatever you actually need automated — reviews are just where most people start.\\n\\nJust hit reply.\\n\\nCheers,\\nGunjan\u0027\n];\n\nconst subjectIdx = Math.floor(Math.random() * 16);\nconst bodyIdx = Math.floor(Math.random() * 16);\n\nconst fullName = prevData.fullName;\nconst emailBody = bodies[bodyIdx].replace(/\\{\\{firstName\\}\\}/g, fullName);\nconst subject = subjects[subjectIdx];\n\nreturn [{ json: { ...prevData, slot, fromEmail: mailbox.from, senderName: mailbox.name, company: mailbox.company, rowNumber: totalRows + 1, subject, emailBody } }];"
                                                            },
                                             "id": "REDACTED",
                                             "name":  "Pick Mailbox",
@@ -2293,14 +2293,14 @@
                                         },
                                         {
                                             "parameters":  {
-                                                               "fromEmail":  "denver@offshorestaff.space",
+                                                               "fromEmail":  "your@email.com",
                                                                "toEmail":  "={{ $json.email }}",
                                                                "subject":  "={{ $json.subject }}",
                                                                "emailFormat":  "text",
                                                                "text":  "={{ $json.emailBody }}",
                                                                "options":  {
                                                                                "appendAttribution":  false,
-                                                                               "replyTo":  "ineedhelp@datasecureva.tech"
+                                                                               "replyTo":  "your@email.com"
                                                                            }
                                                            },
                                             "id": "REDACTED",
@@ -2322,14 +2322,14 @@
                                         },
                                         {
                                             "parameters":  {
-                                                               "fromEmail":  "denver@remotestaff.space",
+                                                               "fromEmail":  "your@email.com",
                                                                "toEmail":  "={{ $json.email }}",
                                                                "subject":  "={{ $json.subject }}",
                                                                "emailFormat":  "text",
                                                                "text":  "={{ $json.emailBody }}",
                                                                "options":  {
                                                                                "appendAttribution":  false,
-                                                                               "replyTo":  "ineedhelp@datasecureva.tech"
+                                                                               "replyTo":  "your@email.com"
                                                                            }
                                                            },
                                             "id": "REDACTED",
@@ -2351,14 +2351,14 @@
                                         },
                                         {
                                             "parameters":  {
-                                                               "fromEmail":  "kriza@remotetalent.space",
+                                                               "fromEmail":  "your@email.com",
                                                                "toEmail":  "={{ $json.email }}",
                                                                "subject":  "={{ $json.subject }}",
                                                                "emailFormat":  "text",
                                                                "text":  "={{ $json.emailBody }}",
                                                                "options":  {
                                                                                "appendAttribution":  false,
-                                                                               "replyTo":  "ineedhelp@datasecureva.tech"
+                                                                               "replyTo":  "your@email.com"
                                                                            }
                                                            },
                                             "id": "REDACTED",
@@ -2380,14 +2380,14 @@
                                         },
                                         {
                                             "parameters":  {
-                                                               "fromEmail":  "denver@remoteteam.team",
+                                                               "fromEmail":  "your@email.com",
                                                                "toEmail":  "={{ $json.email }}",
                                                                "subject":  "={{ $json.subject }}",
                                                                "emailFormat":  "text",
                                                                "text":  "={{ $json.emailBody }}",
                                                                "options":  {
                                                                                "appendAttribution":  false,
-                                                                               "replyTo":  "ineedhelp@datasecureva.tech"
+                                                                               "replyTo":  "your@email.com"
                                                                            }
                                                            },
                                             "id": "REDACTED",
@@ -2408,14 +2408,14 @@
                                         },
                                         {
                                             "parameters":  {
-                                                               "fromEmail":  "mae@staffremote.space",
+                                                               "fromEmail":  "your@email.com",
                                                                "toEmail":  "={{ $json.email }}",
                                                                "subject":  "={{ $json.subject }}",
                                                                "emailFormat":  "text",
                                                                "text":  "={{ $json.emailBody }}",
                                                                "options":  {
                                                                                "appendAttribution":  false,
-                                                                               "replyTo":  "ineedhelp@datasecureva.tech"
+                                                                               "replyTo":  "your@email.com"
                                                                            }
                                                            },
                                             "id": "REDACTED",
@@ -2436,14 +2436,14 @@
                                         },
                                         {
                                             "parameters":  {
-                                                               "fromEmail":  "denver@teamoffshore.team",
+                                                               "fromEmail":  "your@email.com",
                                                                "toEmail":  "={{ $json.email }}",
                                                                "subject":  "={{ $json.subject }}",
                                                                "emailFormat":  "text",
                                                                "text":  "={{ $json.emailBody }}",
                                                                "options":  {
                                                                                "appendAttribution":  false,
-                                                                               "replyTo":  "ineedhelp@datasecureva.tech"
+                                                                               "replyTo":  "your@email.com"
                                                                            }
                                                            },
                                             "id": "REDACTED",
@@ -2464,14 +2464,14 @@
                                         },
                                         {
                                             "parameters":  {
-                                                               "fromEmail":  "mae@offshorestaff.space",
+                                                               "fromEmail":  "your@email.com",
                                                                "toEmail":  "={{ $json.email }}",
                                                                "subject":  "={{ $json.subject }}",
                                                                "emailFormat":  "text",
                                                                "text":  "={{ $json.emailBody }}",
                                                                "options":  {
                                                                                "appendAttribution":  false,
-                                                                               "replyTo":  "ineedhelp@datasecureva.tech"
+                                                                               "replyTo":  "your@email.com"
                                                                            }
                                                            },
                                             "id": "REDACTED",
@@ -2492,14 +2492,14 @@
                                         },
                                         {
                                             "parameters":  {
-                                                               "fromEmail":  "kriza@offshorestaff.space",
+                                                               "fromEmail":  "your@email.com",
                                                                "toEmail":  "={{ $json.email }}",
                                                                "subject":  "={{ $json.subject }}",
                                                                "emailFormat":  "text",
                                                                "text":  "={{ $json.emailBody }}",
                                                                "options":  {
                                                                                "appendAttribution":  false,
-                                                                               "replyTo":  "ineedhelp@datasecureva.tech"
+                                                                               "replyTo":  "your@email.com"
                                                                            }
                                                            },
                                             "id": "REDACTED",
@@ -2520,14 +2520,14 @@
                                         },
                                         {
                                             "parameters":  {
-                                                               "fromEmail":  "mae@remotestaff.space",
+                                                               "fromEmail":  "your@email.com",
                                                                "toEmail":  "={{ $json.email }}",
                                                                "subject":  "={{ $json.subject }}",
                                                                "emailFormat":  "text",
                                                                "text":  "={{ $json.emailBody }}",
                                                                "options":  {
                                                                                "appendAttribution":  false,
-                                                                               "replyTo":  "ineedhelp@datasecureva.tech"
+                                                                               "replyTo":  "your@email.com"
                                                                            }
                                                            },
                                             "id": "REDACTED",
@@ -2548,14 +2548,14 @@
                                         },
                                         {
                                             "parameters":  {
-                                                               "fromEmail":  "kriza@remotestaff.space",
+                                                               "fromEmail":  "your@email.com",
                                                                "toEmail":  "={{ $json.email }}",
                                                                "subject":  "={{ $json.subject }}",
                                                                "emailFormat":  "text",
                                                                "text":  "={{ $json.emailBody }}",
                                                                "options":  {
                                                                                "appendAttribution":  false,
-                                                                               "replyTo":  "ineedhelp@datasecureva.tech"
+                                                                               "replyTo":  "your@email.com"
                                                                            }
                                                            },
                                             "id": "REDACTED",
@@ -2576,14 +2576,14 @@
                                         },
                                         {
                                             "parameters":  {
-                                                               "fromEmail":  "mae@remoteteam.team",
+                                                               "fromEmail":  "your@email.com",
                                                                "toEmail":  "={{ $json.email }}",
                                                                "subject":  "={{ $json.subject }}",
                                                                "emailFormat":  "text",
                                                                "text":  "={{ $json.emailBody }}",
                                                                "options":  {
                                                                                "appendAttribution":  false,
-                                                                               "replyTo":  "ineedhelp@datasecureva.tech"
+                                                                               "replyTo":  "your@email.com"
                                                                            }
                                                            },
                                             "id": "REDACTED",
@@ -2604,14 +2604,14 @@
                                         },
                                         {
                                             "parameters":  {
-                                                               "fromEmail":  "kriza@remoteteam.team",
+                                                               "fromEmail":  "your@email.com",
                                                                "toEmail":  "={{ $json.email }}",
                                                                "subject":  "={{ $json.subject }}",
                                                                "emailFormat":  "text",
                                                                "text":  "={{ $json.emailBody }}",
                                                                "options":  {
                                                                                "appendAttribution":  false,
-                                                                               "replyTo":  "ineedhelp@datasecureva.tech"
+                                                                               "replyTo":  "your@email.com"
                                                                            }
                                                            },
                                             "id": "REDACTED",
@@ -2632,14 +2632,14 @@
                                         },
                                         {
                                             "parameters":  {
-                                                               "fromEmail":  "denver@staffremote.space",
+                                                               "fromEmail":  "your@email.com",
                                                                "toEmail":  "={{ $json.email }}",
                                                                "subject":  "={{ $json.subject }}",
                                                                "emailFormat":  "text",
                                                                "text":  "={{ $json.emailBody }}",
                                                                "options":  {
                                                                                "appendAttribution":  false,
-                                                                               "replyTo":  "ineedhelp@datasecureva.tech"
+                                                                               "replyTo":  "your@email.com"
                                                                            }
                                                            },
                                             "id": "REDACTED",
@@ -2660,14 +2660,14 @@
                                         },
                                         {
                                             "parameters":  {
-                                                               "fromEmail":  "kriza@staffremote.space",
+                                                               "fromEmail":  "your@email.com",
                                                                "toEmail":  "={{ $json.email }}",
                                                                "subject":  "={{ $json.subject }}",
                                                                "emailFormat":  "text",
                                                                "text":  "={{ $json.emailBody }}",
                                                                "options":  {
                                                                                "appendAttribution":  false,
-                                                                               "replyTo":  "ineedhelp@datasecureva.tech"
+                                                                               "replyTo":  "your@email.com"
                                                                            }
                                                            },
                                             "id": "REDACTED",
@@ -2688,14 +2688,14 @@
                                         },
                                         {
                                             "parameters":  {
-                                                               "fromEmail":  "mae@teamoffshore.team",
+                                                               "fromEmail":  "your@email.com",
                                                                "toEmail":  "={{ $json.email }}",
                                                                "subject":  "={{ $json.subject }}",
                                                                "emailFormat":  "text",
                                                                "text":  "={{ $json.emailBody }}",
                                                                "options":  {
                                                                                "appendAttribution":  false,
-                                                                               "replyTo":  "ineedhelp@datasecureva.tech"
+                                                                               "replyTo":  "your@email.com"
                                                                            }
                                                            },
                                             "id": "REDACTED",
@@ -2716,14 +2716,14 @@
                                         },
                                         {
                                             "parameters":  {
-                                                               "fromEmail":  "kriza@teamoffshore.team",
+                                                               "fromEmail":  "your@email.com",
                                                                "toEmail":  "={{ $json.email }}",
                                                                "subject":  "={{ $json.subject }}",
                                                                "emailFormat":  "text",
                                                                "text":  "={{ $json.emailBody }}",
                                                                "options":  {
                                                                                "appendAttribution":  false,
-                                                                               "replyTo":  "ineedhelp@datasecureva.tech"
+                                                                               "replyTo":  "your@email.com"
                                                                            }
                                                            },
                                             "id": "REDACTED",
@@ -2898,7 +2898,7 @@
                                                                                         "parameters":  [
                                                                                                            {
                                                                                                                "name":  "Authorization",
-                                                                                                               "value":  "Bearer pit-6f6ca107-7bae-40b6-98da-4a97734767be"
+                                                                                                               "value":  "Bearer YOUR_TOKEN_HERE"
                                                                                                            },
                                                                                                            {
                                                                                                                "name":  "Version",
@@ -2935,7 +2935,7 @@
                                                                                         "parameters":  [
                                                                                                            {
                                                                                                                "name":  "Authorization",
-                                                                                                               "value":  "Bearer pit-6f6ca107-7bae-40b6-98da-4a97734767be"
+                                                                                                               "value":  "Bearer YOUR_TOKEN_HERE"
                                                                                                            },
                                                                                                            {
                                                                                                                "name":  "Version",
@@ -3364,3 +3364,4 @@
                                                      ]
                       }
 }
+

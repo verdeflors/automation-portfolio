@@ -47,7 +47,7 @@
                                                               },
                                          "sendBody":  true,
                                          "specifyBody":  "json",
-                                         "jsonBody":  "={\n  \"email\": \"ineedhelp@datasecureva.tech\",\n  \"password\": \"7%Sm3PBT5N9q^IM!\"\n}",
+                                         "jsonBody":  "={\n  \"email\": \"your@email.com\",\n  \"password\": \"7%Sm3PBT5N9q^IM!\"\n}",
                                          "options":  {
 
                                                      }
@@ -138,7 +138,7 @@
                                                                                   {
                                                                                       "name":  "Authorization",
                                                                                       "valueProvider":  "fieldValue",
-                                                                                      "value":  "=Bearer {{ $(\u0027Rex Login\u0027).item.json.result }}"
+                                                                                      "value":  "=Bearer YOUR_TOKEN_HERE $(\u0027Rex Login\u0027).item.json.result }}"
                                                                                   }
                                                                               ]
                                                                },
@@ -222,7 +222,7 @@
                                                               },
                                          "sendBody":  true,
                                          "specifyBody":  "json",
-                                         "jsonBody":  "={\"template_id\": 3672603, \"send_email\": false, \"submitters\": [{\"role\": \"Landlord\", \"email\": \"noreply@placeholder.com\"}, {\"role\": \"Tenant\", \"email\": \"noreply@placeholder.com\"}]}",
+                                         "jsonBody":  "={\"template_id\": 3672603, \"send_email\": false, \"submitters\": [{\"role\": \"Landlord\", \"email\": \"your@email.com\"}, {\"role\": \"Tenant\", \"email\": \"your@email.com\"}]}",
                                          "options":  {
 
                                                      }
@@ -668,7 +668,7 @@
                                        "updatedAt":  "2026-05-11T01:48:12.434Z",
                                        "createdAt":  "2026-05-05T04:11:58.564Z",
                                        "id":  "5Pplijr4snMNDnab",
-                                       "name":  "Marc  Verdeflor \u003cvmarcelne@gmail.com\u003e",
+                                       "name":  "Marc  Verdeflor \your@email.com\u003e",
                                        "type":  "personal",
                                        "icon":  null,
                                        "description":  null,
@@ -684,3 +684,4 @@
              ],
     "activeVersion":  null
 }
+

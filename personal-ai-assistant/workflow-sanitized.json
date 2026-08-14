@@ -229,9 +229,9 @@
                                          "operation":  "getAll",
                                          "calendar":  {
                                                           "__rl":  true,
-                                                          "value":  "ineedhelp@datasecureva.tech",
+                                                          "value":  "your@email.com",
                                                           "mode":  "list",
-                                                          "cachedResultName":  "ineedhelp@datasecureva.tech"
+                                                          "cachedResultName":  "your@email.com"
                                                       },
                                          "timeMin":  "={{ $fromAI(\u0027timeMin\u0027, \u0027ISO 8601 start of range\u0027, \u0027string\u0027) }}",
                                          "timeMax":  "={{ $fromAI(\u0027timeMax\u0027, \u0027ISO 8601 end of range\u0027, \u0027string\u0027) }}",
@@ -758,7 +758,7 @@
                                        "updatedAt":  "2026-05-11T01:48:12.434Z",
                                        "createdAt":  "2026-05-05T04:11:58.564Z",
                                        "id":  "5Pplijr4snMNDnab",
-                                       "name":  "Marc  Verdeflor \u003cvmarcelne@gmail.com\u003e",
+                                       "name":  "Marc  Verdeflor \your@email.com\u003e",
                                        "type":  "personal",
                                        "icon":  null,
                                        "description":  null,
@@ -1000,9 +1000,9 @@
                                                                "operation":  "getAll",
                                                                "calendar":  {
                                                                                 "__rl":  true,
-                                                                                "value":  "ineedhelp@datasecureva.tech",
+                                                                                "value":  "your@email.com",
                                                                                 "mode":  "list",
-                                                                                "cachedResultName":  "ineedhelp@datasecureva.tech"
+                                                                                "cachedResultName":  "your@email.com"
                                                                             },
                                                                "timeMin":  "={{ $fromAI(\u0027timeMin\u0027, \u0027ISO 8601 start of range\u0027, \u0027string\u0027) }}",
                                                                "timeMax":  "={{ $fromAI(\u0027timeMax\u0027, \u0027ISO 8601 end of range\u0027, \u0027string\u0027) }}",
@@ -1518,3 +1518,4 @@
                                                      ]
                       }
 }
+
