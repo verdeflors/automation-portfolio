@@ -47,7 +47,7 @@
                                                               },
                                          "sendBody":  true,
                                          "specifyBody":  "json",
-                                         "jsonBody":  "={\n  \"email\": \"your@email.com\",\n  \"password\": \"7%Sm3PBT5N9q^IM!\"\n}",
+                                         "jsonBody":  "={\n  \"email\": \"your@email.com\",\n  \"password\": \"YOUR_PASSWORD\"\n}",
                                          "options":  {
 
                                                      }
@@ -684,4 +684,6 @@
              ],
     "activeVersion":  null
 }
+
+
 

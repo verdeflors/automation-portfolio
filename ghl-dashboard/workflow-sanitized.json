@@ -42,7 +42,7 @@
                                                               },
                                          "sendBody":  true,
                                          "specifyBody":  "json",
-                                         "jsonBody":  "={\n  \"email\": \"your@email.com\",\n  \"password\": \"ComplexPassword123$$$\",\n  \"account_id\": 0\n}",
+                                         "jsonBody":  "={\n  \"email\": \"your@email.com\",\n  \"password\": \"YOUR_PASSWORD\",\n  \"account_id\": 0\n}",
                                          "options":  {
 
                                                      }
@@ -733,7 +733,7 @@
                                                                                     },
                                                                "sendBody":  true,
                                                                "specifyBody":  "json",
-                                                               "jsonBody":  "={\n  \"email\": \"your@email.com\",\n  \"password\": \"ComplexPassword123$$$\",\n  \"account_id\": 0\n}",
+                                                               "jsonBody":  "={\n  \"email\": \"your@email.com\",\n  \"password\": \"YOUR_PASSWORD\",\n  \"account_id\": 0\n}",
                                                                "options":  {
 
                                                                            }
@@ -1359,4 +1359,6 @@
                                                      ]
                       }
 }
+
+
 
