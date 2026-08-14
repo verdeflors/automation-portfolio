@@ -1,0 +1,789 @@
+﻿{
+    "updatedAt":  "2026-08-13T09:06:21.237Z",
+    "createdAt":  "2026-07-08T03:48:02.639Z",
+    "id":  "SdRbYMj61VQoqHi5",
+    "name":  "reply-tracker",
+    "description":  null,
+    "active":  true,
+    "isArchived":  false,
+    "nodes":  [
+                  {
+                      "parameters":  {
+                                         "rule":  {
+                                                      "interval":  [
+                                                                       {
+                                                                           "field":  "minutes",
+                                                                           "minutesInterval":  10
+                                                                       }
+                                                                   ]
+                                                  }
+                                     },
+                      "id": "REDACTED",
+                      "name":  "Schedule Trigger",
+                      "type":  "n8n-nodes-base.scheduleTrigger",
+                      "typeVersion":  1.2,
+                      "position":  [
+                                       4128,
+                                       800
+                                   ]
+                  },
+                  {
+                      "parameters":  {
+                                         "operation":  "getAll",
+                                         "limit":  20,
+                                         "filters":  {
+                                                         "includeSpamTrash":  false,
+                                                         "q":  "is:unread (subject:\"quick question\" OR subject:\"can I ask you something\" OR subject:\"not sure who handles this\" OR subject:\"random idea\" OR subject:\"quick thought\" OR subject:\"worth 5 minutes?\" OR subject:\"one for you\" OR subject:\"quick one\" OR subject:\"not trying to sell you anything\" OR subject:\"is this something you\u0027ve considered?\" OR subject:\"built something for electricians\" OR subject:\"random question\" OR subject:\"no pressure, just curious\" OR subject:\"quick favour to ask\" OR subject:\"saw this and thought of you\" OR subject:\"figured I\u0027d ask\" OR subject:\"still curious\" OR subject:\"just checking in\" OR subject:\"one more thing\" OR subject:\"had another thought\" OR subject:\"following up on this\" OR subject:\"worth a look?\" OR subject:\"this might help\" OR subject:\"came across something\" OR subject:\"still relevant?\" OR subject:\"did this land?\" OR subject:\"wanted to add something\" OR subject:\"different angle\" OR subject:\"thought about this more\" OR subject:\"forgot to mention\" OR subject:\"one last thing\" OR subject:\"before I leave you alone\")",
+                                                         "readStatus":  "unread"
+                                                     }
+                                     },
+                      "id": "REDACTED",
+                      "name":  "Get Unread Emails",
+                      "type":  "n8n-nodes-base.gmail",
+                      "typeVersion":  2.1,
+                      "position":  [
+                                       4352,
+                                       800
+                                   ],
+                      "webhookId":  "86b9a94c-aeb1-43d4-acda-cac7d6e7f3a7",
+                      "credentials":  {
+                                          "gmailOAuth2":  {
+                                                              "id":  "o2b7KRdgOugkOYa3",
+                                                              "name":  "gunjan"
+                                                          }
+                                      }
+                  },
+                  {
+                      "parameters":  {
+                                         "jsCode":  "const outreachSubjects = [\n  \u0027quick question\u0027,\n  \u0027can i ask you something\u0027,\n  \u0027not sure who handles this\u0027,\n  \u0027random idea\u0027,\n  \u0027quick thought\u0027,\n  \u0027worth 5 minutes?\u0027,\n  \u0027one for you\u0027,\n  \u0027quick one\u0027,\n  \u0027not trying to sell you anything\u0027,\n  \"is this something you\u0027ve considered?\",\n  \u0027built something for electricians\u0027,\n  \u0027random question\u0027,\n  \u0027no pressure, just curious\u0027,\n  \u0027quick favour to ask\u0027,\n  \u0027saw this and thought of you\u0027,\n  \"figured i\u0027d ask\",\n  \u0027still curious\u0027,\n  \u0027just checking in\u0027,\n  \u0027one more thing\u0027,\n  \u0027had another thought\u0027,\n  \u0027following up on this\u0027,\n  \u0027worth a look?\u0027,\n  \u0027this might help\u0027,\n  \u0027came across something\u0027,\n  \u0027still relevant?\u0027,\n  \u0027did this land?\u0027,\n  \u0027wanted to add something\u0027,\n  \u0027different angle\u0027,\n  \u0027thought about this more\u0027,\n  \u0027forgot to mention\u0027,\n  \u0027one last thing\u0027,\n  \u0027before i leave you alone\u0027\n];\n\nconst ownEmails = [\u0027vmarcelne@gmail.com\u0027, \u0027marcelne@gmail.com\u0027];\n\nconst results = [];\n\nfor (const item of $input.all()) {\n  const email = item.json;\n  \n  // Debug: log all top-level keys so we can see the Gmail node output shape\n  console.log(\u0027Gmail item keys: \u0027 + Object.keys(email).join(\u0027, \u0027));\n  console.log(\u0027from=\u0027 + email.from + \u0027 | From=\u0027 + email.From + \u0027 | sender=\u0027 + email.sender);\n\n  const subject = (email.subject || email.Subject || (email.payload?.headers?.find(h =\u003e h.name === \u0027Subject\u0027)?.value) || \u0027\u0027).toLowerCase().replace(/^re:\\s*/i, \u0027\u0027).trim();\n\n  const isOutreachReply = outreachSubjects.some(s =\u003e subject.includes(s));\n  if (!isOutreachReply) { console.log(\u0027Not outreach reply, subject: \u0027 + subject); continue; }\n\n  // Try every possible location the From address could be\n  const fromHeader = email.from || email.From || email.sender ||\n    (email.payload?.headers?.find(h =\u003e h.name === \u0027From\u0027 || h.name === \u0027from\u0027)?.value) || \u0027\u0027;\n  console.log(\u0027fromHeader: \u0027 + fromHeader);\n  \n  const senderEmailMatch = fromHeader.match(/\u003c([^\u003e]+)\u003e/) || fromHeader.match(/([\\w.+-]+@[\\w.-]+\\.[\\w.]+)/);\n  const senderEmail = senderEmailMatch ? senderEmailMatch[1].toLowerCase().trim() : fromHeader.toLowerCase().trim();\n  console.log(\u0027senderEmail extracted: \u0027 + senderEmail);\n  if (!senderEmail) continue;\n\n  const isOwnEmail = ownEmails.some(d =\u003e senderEmail === d);\n  if (isOwnEmail) continue;\n\n  const messageId = email.id || email.messageId || \u0027\u0027;\n  const body = email.text || email.snippet || \u0027\u0027;\n  const originalSubject = email.subject || email.Subject || (email.payload?.headers?.find(h =\u003e h.name === \u0027Subject\u0027)?.value) || \u0027\u0027;\n\n  results.push({ json: { senderEmail, subject: originalSubject, messageId, rawFrom: fromHeader, body } });\n}\n\nif (results.length === 0) throw new Error(\u0027No matching outreach replies found\u0027);\nreturn results;"
+                                     },
+                      "id": "REDACTED",
+                      "name":  "Parse Reply",
+                      "type":  "n8n-nodes-base.code",
+                      "typeVersion":  2,
+                      "position":  [
+                                       4592,
+                                       800
+                                   ]
+                  },
+                  {
+                      "parameters":  {
+                                         "operation":  "markAsRead",
+                                         "messageId":  "={{ $json.messageId }}"
+                                     },
+                      "id": "REDACTED",
+                      "name":  "Mark as Read",
+                      "type":  "n8n-nodes-base.gmail",
+                      "typeVersion":  2.1,
+                      "position":  [
+                                       4816,
+                                       800
+                                   ],
+                      "webhookId":  "7298dc61-9ac1-4d8e-8521-a3a907fbef76",
+                      "credentials":  {
+                                          "gmailOAuth2":  {
+                                                              "id":  "o2b7KRdgOugkOYa3",
+                                                              "name":  "gunjan"
+                                                          }
+                                      }
+                  },
+                  {
+                      "parameters":  {
+                                         "jsCode":  "const results = [];\n\n// Mark as Read overwrites item data — pull original parsed fields from Parse Reply node\nconst parsedItems = $(\u0027Parse Reply\u0027).all();\n\nfor (let i = 0; i \u003c parsedItems.length; i++) {\n  const { senderEmail, subject, messageId, rawFrom, body } = parsedItems[i].json;\n  console.log(\u0027Processing senderEmail: \u0027 + senderEmail);\n\n  // Try email= param first (exact match)\n  let contacts = [];\n  let r1Raw = null;\n  try {\n    r1Raw = await this.helpers.httpRequest({\n      method: \u0027GET\u0027,\n      url: \u0027https://services.leadconnectorhq.com/contacts/?locationId=lRmpmIPQq1UG7nJr1LK5\u0026email=\u0027 + encodeURIComponent(senderEmail),\n      headers: { \u0027Authorization\u0027: \u0027Bearer pit-6f6ca107-7bae-40b6-98da-4a97734767be\u0027, \u0027Version\u0027: \u00272021-07-28\u0027 },\n      json: true\n    });\n    contacts = r1Raw.contacts || [];\n    console.log(\u0027email= lookup for \u0027 + senderEmail + \u0027 → \u0027 + contacts.length + \u0027 results. raw keys: \u0027 + Object.keys(r1Raw).join(\u0027,\u0027));\n  } catch(e) {\n    console.log(\u0027email= lookup error: \u0027 + e.message);\n  }\n\n  if (contacts.length === 0) {\n    try {\n      const r2 = await this.helpers.httpRequest({\n        method: \u0027GET\u0027,\n        url: \u0027https://services.leadconnectorhq.com/contacts/?locationId=lRmpmIPQq1UG7nJr1LK5\u0026query=\u0027 + encodeURIComponent(senderEmail),\n        headers: { \u0027Authorization\u0027: \u0027Bearer pit-6f6ca107-7bae-40b6-98da-4a97734767be\u0027, \u0027Version\u0027: \u00272021-07-28\u0027 },\n        json: true\n      });\n      contacts = r2.contacts || [];\n      console.log(\u0027query= lookup for \u0027 + senderEmail + \u0027 → \u0027 + contacts.length + \u0027 results\u0027);\n    } catch(e) {\n      console.log(\u0027query= lookup error: \u0027 + e.message);\n    }\n  }\n\n  if (contacts.length === 0) {\n    console.log(\u0027Contact not found in GHL for: \u0027 + senderEmail + \u0027 — skipping\u0027);\n    continue;\n  }\n\n  const contact = contacts[0];\n  const contactId = contact.id;\n  const nameParts = [contact.firstName, contact.lastName].filter(p =\u003e p \u0026\u0026 p.trim());\n  const fullName = contact.contactName || (nameParts.length \u003e 0 ? nameParts.join(\u0027 \u0027) : senderEmail);\n  const tags = contact.tags || [];\n  console.log(\u0027Found contact: \u0027 + fullName + \u0027 | tags: \u0027 + tags.join(\u0027,\u0027));\n\n  // Only skip if already replied AND has no outreach tags (pure duplicate guard)\n  const hasOutreach = tags.includes(\u0027outreach\u0027) || tags.includes(\u0027outreach-sent\u0027);\n  if (tags.includes(\u0027replied\u0027) \u0026\u0026 !hasOutreach) {\n    console.log(\u0027Already processed (non-outreach replied contact): \u0027 + senderEmail + \u0027 — skipping\u0027);\n    continue;\n  }\n\n  // Add replied tag (safe to call even if already has it — GHL is idempotent)\n  await this.helpers.httpRequest({\n    method: \u0027POST\u0027,\n    url: \u0027https://services.leadconnectorhq.com/contacts/\u0027 + contactId + \u0027/tags\u0027,\n    headers: { \u0027Authorization\u0027: \u0027Bearer pit-6f6ca107-7bae-40b6-98da-4a97734767be\u0027, \u0027Version\u0027: \u00272021-07-28\u0027, \u0027Content-Type\u0027: \u0027application/json\u0027 },\n    body: { tags: [\u0027replied\u0027] },\n    json: true\n  });\n\n  // Find opportunity and move stage\n  const oppResp = await this.helpers.httpRequest({\n    method: \u0027GET\u0027,\n    url: \u0027https://services.leadconnectorhq.com/opportunities/search?location_id=lRmpmIPQq1UG7nJr1LK5\u0026contact_id=\u0027 + contactId + \u0027\u0026pipeline_id=z712pcy3WvLGf2xtIZgV\u0027,\n    headers: { \u0027Authorization\u0027: \u0027Bearer pit-6f6ca107-7bae-40b6-98da-4a97734767be\u0027, \u0027Version\u0027: \u00272021-07-28\u0027 },\n    json: true\n  });\n\n  const opportunities = oppResp.opportunities || [];\n  let opportunityId = null;\n\n  if (opportunities.length \u003e 0) {\n    opportunityId = opportunities[0].id;\n    await this.helpers.httpRequest({\n      method: \u0027PUT\u0027,\n      url: \u0027https://services.leadconnectorhq.com/opportunities/\u0027 + opportunityId,\n      headers: { \u0027Authorization\u0027: \u0027Bearer pit-6f6ca107-7bae-40b6-98da-4a97734767be\u0027, \u0027Version\u0027: \u00272021-07-28\u0027, \u0027Content-Type\u0027: \u0027application/json\u0027 },\n      body: { pipelineStageId: \u0027082e1052-b5c8-432d-aa17-53a92c5922b3\u0027 },\n      json: true\n    });\n  } else {\n    console.log(\u0027No opportunity found for contact: \u0027 + contactId + \u0027 — skipping stage move\u0027);\n  }\n\n  results.push({ json: { senderEmail, subject, body, messageId, contactId, fullName, opportunityId } });\n}\n\nif (results.length === 0) throw new Error(\u0027No contacts processed — check console logs above for details\u0027);\nreturn results;"
+                                     },
+                      "id": "REDACTED",
+                      "name":  "Process All Replies",
+                      "type":  "n8n-nodes-base.code",
+                      "typeVersion":  2,
+                      "position":  [
+                                       5040,
+                                       800
+                                   ]
+                  },
+                  {
+                      "parameters":  {
+                                         "jsCode":  "const results = [];\nfor (const item of $input.all()) {\n  const body = item.json.body || \u0027\u0027;\n  const response = await this.helpers.httpRequest({\n    method: \u0027POST\u0027,\n    url: \u0027https://api.deepseek.com/chat/completions\u0027,\n    headers: {\n      \u0027Authorization\u0027: \u0027Bearer sk-ddbf941f66c84e5d9f7a87f8d69b1a11\u0027,\n      \u0027Content-Type\u0027: \u0027application/json\u0027\n    },\n    body: {\n      model: \u0027deepseek-chat\u0027,\n      messages: [\n        { role: \u0027system\u0027, content: \u0027You are a sales reply classifier. Classify the reply into exactly one of these categories: Interested, Not Interested, Question, Out of Office, Unsubscribe, Other. Reply with only the category name, nothing else.\u0027 },\n        { role: \u0027user\u0027, content: \u0027Reply body: \u0027 + body }\n      ],\n      max_tokens: 10\n    },\n    json: true\n  });\n  const category = (response.choices?.[0]?.message?.content || \u0027Other\u0027).trim();\n  results.push({ json: { ...item.json, category } });\n}\nreturn results;"
+                                     },
+                      "id": "REDACTED",
+                      "name":  "DeepSeek Classify",
+                      "type":  "n8n-nodes-base.code",
+                      "typeVersion":  2,
+                      "position":  [
+                                       5264,
+                                       800
+                                   ]
+                  },
+                  {
+                      "parameters":  {
+                                         "jsCode":  "const categoryMap = {\n  \u0027Interested\u0027: \u0027category-interested\u0027,\n  \u0027Not Interested\u0027: \u0027category-not-interested\u0027,\n  \u0027Question\u0027: \u0027category-question\u0027,\n  \u0027Out of Office\u0027: \u0027category-out-of-office\u0027,\n  \u0027Unsubscribe\u0027: \u0027category-unsubscribe\u0027,\n  \u0027Other\u0027: \u0027category-other\u0027\n};\nreturn $input.all().map(item =\u003e ({\n  json: { ...item.json, categoryTag: categoryMap[item.json.category] || \u0027category-other\u0027 }\n}));"
+                                     },
+                      "id": "REDACTED",
+                      "name":  "Extract Category",
+                      "type":  "n8n-nodes-base.code",
+                      "typeVersion":  2,
+                      "position":  [
+                                       5488,
+                                       800
+                                   ]
+                  },
+                  {
+                      "parameters":  {
+                                         "jsCode":  "const results = [];\nfor (const item of $input.all()) {\n  const contactId = item.json.contactId;\n  const categoryTag = item.json.categoryTag || \u0027category-other\u0027;\n  await this.helpers.httpRequest({\n    method: \u0027POST\u0027,\n    url: \u0027https://services.leadconnectorhq.com/contacts/\u0027 + contactId + \u0027/tags\u0027,\n    headers: {\n      \u0027Authorization\u0027: \u0027Bearer pit-6f6ca107-7bae-40b6-98da-4a97734767be\u0027,\n      \u0027Version\u0027: \u00272021-07-28\u0027,\n      \u0027Content-Type\u0027: \u0027application/json\u0027\n    },\n    body: { tags: [categoryTag] },\n    json: true\n  });\n  results.push({ json: { ...item.json } });\n}\nreturn results;"
+                                     },
+                      "id": "REDACTED",
+                      "name":  "Add Category Tag",
+                      "type":  "n8n-nodes-base.code",
+                      "typeVersion":  2,
+                      "position":  [
+                                       5712,
+                                       800
+                                   ],
+                      "alwaysOutputData":  false
+                  },
+                  {
+                      "parameters":  {
+                                         "jsCode":  "const categoryToLabel = {\n  \u0027category-interested\u0027: \u0027outreach-interested\u0027,\n  \u0027category-not-interested\u0027: \u0027outreach-not-interested\u0027,\n  \u0027category-question\u0027: \u0027outreach-question\u0027,\n  \u0027category-out-of-office\u0027: \u0027outreach-out-of-office\u0027,\n  \u0027category-unsubscribe\u0027: \u0027outreach-unsubscribe\u0027,\n  \u0027category-other\u0027: \u0027outreach-other\u0027\n};\n\nconst results = [];\nfor (const item of $input.all()) {\n  const messageId = item.json.messageId;\n  const labelName = categoryToLabel[item.json.categoryTag] || \u0027outreach-other\u0027;\n\n  try {\n    // List labels\n    const labelsResp = await this.helpers.httpRequestWithAuthentication.call(this, \u0027gmailOAuth2\u0027, {\n      method: \u0027GET\u0027,\n      url: \u0027https://gmail.googleapis.com/gmail/v1/users/me/labels\u0027,\n      json: true\n    });\n    let labelId = (labelsResp.labels || []).find(l =\u003e l.name === labelName)?.id;\n\n    // Create if missing\n    if (!labelId) {\n      const created = await this.helpers.httpRequestWithAuthentication.call(this, \u0027gmailOAuth2\u0027, {\n        method: \u0027POST\u0027,\n        url: \u0027https://gmail.googleapis.com/gmail/v1/users/me/labels\u0027,\n        json: true,\n        body: { name: labelName, labelListVisibility: \u0027labelShow\u0027, messageListVisibility: \u0027show\u0027 }\n      });\n      labelId = created.id;\n    }\n\n    // Apply to message\n    if (labelId \u0026\u0026 messageId) {\n      await this.helpers.httpRequestWithAuthentication.call(this, \u0027gmailOAuth2\u0027, {\n        method: \u0027POST\u0027,\n        url: \u0027https://gmail.googleapis.com/gmail/v1/users/me/messages/\u0027 + messageId + \u0027/modify\u0027,\n        json: true,\n        body: { addLabelIds: [labelId] }\n      });\n      console.log(\u0027Applied label \u0027 + labelName + \u0027 to message \u0027 + messageId);\n    }\n  } catch(e) {\n    console.log(\u0027Gmail label error: \u0027 + e.message);\n  }\n\n  results.push({ json: { ...item.json } });\n}\nreturn results;"
+                                     },
+                      "id": "REDACTED",
+                      "name":  "Apply Gmail Label",
+                      "type":  "n8n-nodes-base.code",
+                      "typeVersion":  2,
+                      "position":  [
+                                       5936,
+                                       800
+                                   ]
+                  },
+                  {
+                      "parameters":  {
+                                         "documentId":  {
+                                                            "__rl":  true,
+                                                            "value":  "18Dn0z6Haz6FYVPqL5c5DalyabsR20E9kID2YT10sWnc",
+                                                            "mode":  "list",
+                                                            "cachedResultName":  "outreachleads",
+                                                            "cachedResultUrl":  "https://docs.google.com/spreadsheets/d/18Dn0z6Haz6FYVPqL5c5DalyabsR20E9kID2YT10sWnc/edit?usp=drivesdk"
+                                                        },
+                                         "sheetName":  {
+                                                           "__rl":  true,
+                                                           "value":  "gid=0",
+                                                           "mode":  "list",
+                                                           "cachedResultName":  "Sheet1",
+                                                           "cachedResultUrl":  "https://docs.google.com/spreadsheets/d/18Dn0z6Haz6FYVPqL5c5DalyabsR20E9kID2YT10sWnc/edit#gid=0"
+                                                       },
+                                         "filtersUI":  {
+                                                           "values":  [
+                                                                          {
+                                                                              "lookupColumn":  "contact_id",
+                                                                              "lookupValue":  "={{ $json.contactId }}"
+                                                                          }
+                                                                      ]
+                                                       },
+                                         "options":  {
+
+                                                     }
+                                     },
+                      "id": "REDACTED",
+                      "name":  "Lookup Outreach Row",
+                      "type":  "n8n-nodes-base.googleSheets",
+                      "typeVersion":  4.5,
+                      "position":  [
+                                       6160,
+                                       800
+                                   ],
+                      "credentials":  {
+                                          "googleSheetsOAuth2Api":  {
+                                                                        "id":  "E9ackg1zdv5UCbnb",
+                                                                        "name":  "googleoutreach"
+                                                                    }
+                                      },
+                      "onError":  "continueErrorOutput"
+                  },
+                  {
+                      "parameters":  {
+                                         "jsCode":  "// $input here = sheet rows (one per contact, in same order as Add Category Tag output)\n// Add Category Tag output has the reply data (senderEmail, fullName, body, category, contactId)\nconst replyItems = $(\u0027Apply Gmail Label\u0027).all();\nconst sheetItems = $input.all();\n\nreturn replyItems.map((replyItem, i) =\u003e {\n  const reply = replyItem.json;\n  // Match sheet row by index (same order), fall back to empty if missing\n  const sheetRow = sheetItems[i]?.json || {};\n  const fromEmail = sheetRow.from_email || \u0027manual outreach (not in sheet)\u0027;\n  const mailboxSlot = sheetRow.mailbox_slot || \u0027N/A\u0027;\n  const originalSubject = sheetRow.subject || sheetRow.Subject || reply.subject || \u0027\u0027;\n  return { json: { ...reply, fromEmail, mailboxSlot, originalSubject } };\n});"
+                                     },
+                      "id": "REDACTED",
+                      "name":  "Merge Sheet Data",
+                      "type":  "n8n-nodes-base.code",
+                      "typeVersion":  2,
+                      "position":  [
+                                       6384,
+                                       800
+                                   ]
+                  },
+                  {
+                      "parameters":  {
+                                         "sendTo":  "boilovdr@gmail.com",
+                                         "subject":  "=[{{ $json.category }}] Reply from {{ $json.fullName }} ({{ $json.senderEmail }})",
+                                         "message":  "=\u003ch2\u003eNew Outreach Reply — {{ $json.category }}\u003c/h2\u003e\n\u003cp\u003e\u003cstrong\u003eFrom:\u003c/strong\u003e {{ $json.fullName }} ({{ $json.senderEmail }})\u003c/p\u003e\n\u003cp\u003e\u003cstrong\u003eOriginal outreach sent from:\u003c/strong\u003e {{ $json.fromEmail }}\u003c/p\u003e\n\u003cp\u003e\u003cstrong\u003eMailbox slot:\u003c/strong\u003e {{ $json.mailboxSlot }}\u003c/p\u003e\n\u003cp\u003e\u003cstrong\u003eSubject line used:\u003c/strong\u003e {{ $json.originalSubject }}\u003c/p\u003e\n\u003cp\u003e\u003cstrong\u003eReply subject:\u003c/strong\u003e {{ $json.subject }}\u003c/p\u003e\n\u003chr/\u003e\n\u003cp\u003e\u003cstrong\u003eTheir message:\u003c/strong\u003e\u003c/p\u003e\n\u003cp\u003e{{ $json.body || \u0027(No body available)\u0027 }}\u003c/p\u003e",
+                                         "options":  {
+
+                                                     }
+                                     },
+                      "id": "REDACTED",
+                      "name":  "Notify Boss",
+                      "type":  "n8n-nodes-base.gmail",
+                      "typeVersion":  2.1,
+                      "position":  [
+                                       6832,
+                                       800
+                                   ],
+                      "webhookId":  "f441c8c6-9e9b-4364-9da2-69e2de1e3798",
+                      "credentials":  {
+                                          "gmailOAuth2":  {
+                                                              "id":  "o2b7KRdgOugkOYa3",
+                                                              "name":  "gunjan"
+                                                          }
+                                      }
+                  }
+              ],
+    "connections":  {
+                        "Schedule Trigger":  {
+                                                 "main":  [
+                                                              [
+                                                                  {
+                                                                      "node":  "Get Unread Emails",
+                                                                      "type":  "main",
+                                                                      "index":  0
+                                                                  }
+                                                              ]
+                                                          ]
+                                             },
+                        "Get Unread Emails":  {
+                                                  "main":  [
+                                                               [
+                                                                   {
+                                                                       "node":  "Parse Reply",
+                                                                       "type":  "main",
+                                                                       "index":  0
+                                                                   }
+                                                               ]
+                                                           ]
+                                              },
+                        "Parse Reply":  {
+                                            "main":  [
+                                                         [
+                                                             {
+                                                                 "node":  "Mark as Read",
+                                                                 "type":  "main",
+                                                                 "index":  0
+                                                             }
+                                                         ]
+                                                     ]
+                                        },
+                        "Mark as Read":  {
+                                             "main":  [
+                                                          [
+                                                              {
+                                                                  "node":  "Process All Replies",
+                                                                  "type":  "main",
+                                                                  "index":  0
+                                                              }
+                                                          ]
+                                                      ]
+                                         },
+                        "Process All Replies":  {
+                                                    "main":  [
+                                                                 [
+                                                                     {
+                                                                         "node":  "DeepSeek Classify",
+                                                                         "type":  "main",
+                                                                         "index":  0
+                                                                     }
+                                                                 ]
+                                                             ]
+                                                },
+                        "DeepSeek Classify":  {
+                                                  "main":  [
+                                                               [
+                                                                   {
+                                                                       "node":  "Extract Category",
+                                                                       "type":  "main",
+                                                                       "index":  0
+                                                                   }
+                                                               ]
+                                                           ]
+                                              },
+                        "Extract Category":  {
+                                                 "main":  [
+                                                              [
+                                                                  {
+                                                                      "node":  "Add Category Tag",
+                                                                      "type":  "main",
+                                                                      "index":  0
+                                                                  }
+                                                              ]
+                                                          ]
+                                             },
+                        "Add Category Tag":  {
+                                                 "main":  [
+                                                              [
+                                                                  {
+                                                                      "node":  "Apply Gmail Label",
+                                                                      "type":  "main",
+                                                                      "index":  0
+                                                                  }
+                                                              ]
+                                                          ]
+                                             },
+                        "Apply Gmail Label":  {
+                                                  "main":  [
+                                                               [
+                                                                   {
+                                                                       "node":  "Lookup Outreach Row",
+                                                                       "type":  "main",
+                                                                       "index":  0
+                                                                   }
+                                                               ]
+                                                           ]
+                                              },
+                        "Lookup Outreach Row":  {
+                                                    "main":  [
+                                                                 [
+                                                                     {
+                                                                         "node":  "Merge Sheet Data",
+                                                                         "type":  "main",
+                                                                         "index":  0
+                                                                     }
+                                                                 ]
+                                                             ]
+                                                },
+                        "Merge Sheet Data":  {
+                                                 "main":  [
+                                                              [
+                                                                  {
+                                                                      "node":  "Notify Boss",
+                                                                      "type":  "main",
+                                                                      "index":  0
+                                                                  }
+                                                              ]
+                                                          ]
+                                             }
+                    },
+    "settings":  {
+                     "executionOrder":  "v1",
+                     "binaryMode":  "separate"
+                 },
+    "staticData":  {
+                       "node:Schedule Trigger":  {
+                                                     "recurrenceRules":  [
+                                                                             null
+                                                                         ],
+                                                     "recurrenceRuleSignatures":  [
+                                                                                      null
+                                                                                  ]
+                                                 }
+                   },
+    "meta":  null,
+    "nodeGroups":  [
+
+                   ],
+    "pinData":  {
+
+                },
+    "versionId":  "d40a1e93-1e9d-4579-a76e-ba157f3053b7",
+    "activeVersionId":  "d40a1e93-1e9d-4579-a76e-ba157f3053b7",
+    "versionCounter":  124,
+    "triggerCount":  1,
+    "sourceWorkflowId":  null,
+    "shared":  [
+                   {
+                       "updatedAt":  "2026-07-08T03:48:02.645Z",
+                       "createdAt":  "2026-07-08T03:48:02.645Z",
+                       "role":  "workflow:owner",
+                       "workflowId":  "SdRbYMj61VQoqHi5",
+                       "projectId":  "5Pplijr4snMNDnab",
+                       "project":  {
+                                       "updatedAt":  "2026-05-11T01:48:12.434Z",
+                                       "createdAt":  "2026-05-05T04:11:58.564Z",
+                                       "id":  "5Pplijr4snMNDnab",
+                                       "name":  "Marc  Verdeflor \u003cvmarcelne@gmail.com\u003e",
+                                       "type":  "personal",
+                                       "icon":  null,
+                                       "description":  null,
+                                       "customTelemetryTags":  [
+
+                                                               ],
+                                       "creatorId":  "0ef78b71-a163-4c21-9d9b-65b62aac79fe"
+                                   }
+                   }
+               ],
+    "tags":  [
+
+             ],
+    "activeVersion":  {
+                          "updatedAt":  "2026-08-13T09:07:14.000Z",
+                          "createdAt":  "2026-08-13T09:06:21.238Z",
+                          "versionId":  "d40a1e93-1e9d-4579-a76e-ba157f3053b7",
+                          "workflowId":  "SdRbYMj61VQoqHi5",
+                          "nodes":  [
+                                        {
+                                            "parameters":  {
+                                                               "rule":  {
+                                                                            "interval":  [
+                                                                                             {
+                                                                                                 "field":  "minutes",
+                                                                                                 "minutesInterval":  10
+                                                                                             }
+                                                                                         ]
+                                                                        }
+                                                           },
+                                            "id": "REDACTED",
+                                            "name":  "Schedule Trigger",
+                                            "type":  "n8n-nodes-base.scheduleTrigger",
+                                            "typeVersion":  1.2,
+                                            "position":  [
+                                                             4128,
+                                                             800
+                                                         ]
+                                        },
+                                        {
+                                            "parameters":  {
+                                                               "operation":  "getAll",
+                                                               "limit":  20,
+                                                               "filters":  {
+                                                                               "includeSpamTrash":  false,
+                                                                               "q":  "is:unread (subject:\"quick question\" OR subject:\"can I ask you something\" OR subject:\"not sure who handles this\" OR subject:\"random idea\" OR subject:\"quick thought\" OR subject:\"worth 5 minutes?\" OR subject:\"one for you\" OR subject:\"quick one\" OR subject:\"not trying to sell you anything\" OR subject:\"is this something you\u0027ve considered?\" OR subject:\"built something for electricians\" OR subject:\"random question\" OR subject:\"no pressure, just curious\" OR subject:\"quick favour to ask\" OR subject:\"saw this and thought of you\" OR subject:\"figured I\u0027d ask\" OR subject:\"still curious\" OR subject:\"just checking in\" OR subject:\"one more thing\" OR subject:\"had another thought\" OR subject:\"following up on this\" OR subject:\"worth a look?\" OR subject:\"this might help\" OR subject:\"came across something\" OR subject:\"still relevant?\" OR subject:\"did this land?\" OR subject:\"wanted to add something\" OR subject:\"different angle\" OR subject:\"thought about this more\" OR subject:\"forgot to mention\" OR subject:\"one last thing\" OR subject:\"before I leave you alone\")",
+                                                                               "readStatus":  "unread"
+                                                                           }
+                                                           },
+                                            "id": "REDACTED",
+                                            "name":  "Get Unread Emails",
+                                            "type":  "n8n-nodes-base.gmail",
+                                            "typeVersion":  2.1,
+                                            "position":  [
+                                                             4352,
+                                                             800
+                                                         ],
+                                            "webhookId":  "86b9a94c-aeb1-43d4-acda-cac7d6e7f3a7",
+                                            "credentials":  {
+                                                                "gmailOAuth2":  {
+                                                                                    "id":  "o2b7KRdgOugkOYa3",
+                                                                                    "name":  "gunjan"
+                                                                                }
+                                                            }
+                                        },
+                                        {
+                                            "parameters":  {
+                                                               "jsCode":  "const outreachSubjects = [\n  \u0027quick question\u0027,\n  \u0027can i ask you something\u0027,\n  \u0027not sure who handles this\u0027,\n  \u0027random idea\u0027,\n  \u0027quick thought\u0027,\n  \u0027worth 5 minutes?\u0027,\n  \u0027one for you\u0027,\n  \u0027quick one\u0027,\n  \u0027not trying to sell you anything\u0027,\n  \"is this something you\u0027ve considered?\",\n  \u0027built something for electricians\u0027,\n  \u0027random question\u0027,\n  \u0027no pressure, just curious\u0027,\n  \u0027quick favour to ask\u0027,\n  \u0027saw this and thought of you\u0027,\n  \"figured i\u0027d ask\",\n  \u0027still curious\u0027,\n  \u0027just checking in\u0027,\n  \u0027one more thing\u0027,\n  \u0027had another thought\u0027,\n  \u0027following up on this\u0027,\n  \u0027worth a look?\u0027,\n  \u0027this might help\u0027,\n  \u0027came across something\u0027,\n  \u0027still relevant?\u0027,\n  \u0027did this land?\u0027,\n  \u0027wanted to add something\u0027,\n  \u0027different angle\u0027,\n  \u0027thought about this more\u0027,\n  \u0027forgot to mention\u0027,\n  \u0027one last thing\u0027,\n  \u0027before i leave you alone\u0027\n];\n\nconst ownEmails = [\u0027vmarcelne@gmail.com\u0027, \u0027marcelne@gmail.com\u0027];\n\nconst results = [];\n\nfor (const item of $input.all()) {\n  const email = item.json;\n  \n  // Debug: log all top-level keys so we can see the Gmail node output shape\n  console.log(\u0027Gmail item keys: \u0027 + Object.keys(email).join(\u0027, \u0027));\n  console.log(\u0027from=\u0027 + email.from + \u0027 | From=\u0027 + email.From + \u0027 | sender=\u0027 + email.sender);\n\n  const subject = (email.subject || email.Subject || (email.payload?.headers?.find(h =\u003e h.name === \u0027Subject\u0027)?.value) || \u0027\u0027).toLowerCase().replace(/^re:\\s*/i, \u0027\u0027).trim();\n\n  const isOutreachReply = outreachSubjects.some(s =\u003e subject.includes(s));\n  if (!isOutreachReply) { console.log(\u0027Not outreach reply, subject: \u0027 + subject); continue; }\n\n  // Try every possible location the From address could be\n  const fromHeader = email.from || email.From || email.sender ||\n    (email.payload?.headers?.find(h =\u003e h.name === \u0027From\u0027 || h.name === \u0027from\u0027)?.value) || \u0027\u0027;\n  console.log(\u0027fromHeader: \u0027 + fromHeader);\n  \n  const senderEmailMatch = fromHeader.match(/\u003c([^\u003e]+)\u003e/) || fromHeader.match(/([\\w.+-]+@[\\w.-]+\\.[\\w.]+)/);\n  const senderEmail = senderEmailMatch ? senderEmailMatch[1].toLowerCase().trim() : fromHeader.toLowerCase().trim();\n  console.log(\u0027senderEmail extracted: \u0027 + senderEmail);\n  if (!senderEmail) continue;\n\n  const isOwnEmail = ownEmails.some(d =\u003e senderEmail === d);\n  if (isOwnEmail) continue;\n\n  const messageId = email.id || email.messageId || \u0027\u0027;\n  const body = email.text || email.snippet || \u0027\u0027;\n  const originalSubject = email.subject || email.Subject || (email.payload?.headers?.find(h =\u003e h.name === \u0027Subject\u0027)?.value) || \u0027\u0027;\n\n  results.push({ json: { senderEmail, subject: originalSubject, messageId, rawFrom: fromHeader, body } });\n}\n\nif (results.length === 0) throw new Error(\u0027No matching outreach replies found\u0027);\nreturn results;"
+                                                           },
+                                            "id": "REDACTED",
+                                            "name":  "Parse Reply",
+                                            "type":  "n8n-nodes-base.code",
+                                            "typeVersion":  2,
+                                            "position":  [
+                                                             4592,
+                                                             800
+                                                         ]
+                                        },
+                                        {
+                                            "parameters":  {
+                                                               "operation":  "markAsRead",
+                                                               "messageId":  "={{ $json.messageId }}"
+                                                           },
+                                            "id": "REDACTED",
+                                            "name":  "Mark as Read",
+                                            "type":  "n8n-nodes-base.gmail",
+                                            "typeVersion":  2.1,
+                                            "position":  [
+                                                             4816,
+                                                             800
+                                                         ],
+                                            "webhookId":  "7298dc61-9ac1-4d8e-8521-a3a907fbef76",
+                                            "credentials":  {
+                                                                "gmailOAuth2":  {
+                                                                                    "id":  "o2b7KRdgOugkOYa3",
+                                                                                    "name":  "gunjan"
+                                                                                }
+                                                            }
+                                        },
+                                        {
+                                            "parameters":  {
+                                                               "jsCode":  "const results = [];\n\n// Mark as Read overwrites item data — pull original parsed fields from Parse Reply node\nconst parsedItems = $(\u0027Parse Reply\u0027).all();\n\nfor (let i = 0; i \u003c parsedItems.length; i++) {\n  const { senderEmail, subject, messageId, rawFrom, body } = parsedItems[i].json;\n  console.log(\u0027Processing senderEmail: \u0027 + senderEmail);\n\n  // Try email= param first (exact match)\n  let contacts = [];\n  let r1Raw = null;\n  try {\n    r1Raw = await this.helpers.httpRequest({\n      method: \u0027GET\u0027,\n      url: \u0027https://services.leadconnectorhq.com/contacts/?locationId=lRmpmIPQq1UG7nJr1LK5\u0026email=\u0027 + encodeURIComponent(senderEmail),\n      headers: { \u0027Authorization\u0027: \u0027Bearer pit-6f6ca107-7bae-40b6-98da-4a97734767be\u0027, \u0027Version\u0027: \u00272021-07-28\u0027 },\n      json: true\n    });\n    contacts = r1Raw.contacts || [];\n    console.log(\u0027email= lookup for \u0027 + senderEmail + \u0027 → \u0027 + contacts.length + \u0027 results. raw keys: \u0027 + Object.keys(r1Raw).join(\u0027,\u0027));\n  } catch(e) {\n    console.log(\u0027email= lookup error: \u0027 + e.message);\n  }\n\n  if (contacts.length === 0) {\n    try {\n      const r2 = await this.helpers.httpRequest({\n        method: \u0027GET\u0027,\n        url: \u0027https://services.leadconnectorhq.com/contacts/?locationId=lRmpmIPQq1UG7nJr1LK5\u0026query=\u0027 + encodeURIComponent(senderEmail),\n        headers: { \u0027Authorization\u0027: \u0027Bearer pit-6f6ca107-7bae-40b6-98da-4a97734767be\u0027, \u0027Version\u0027: \u00272021-07-28\u0027 },\n        json: true\n      });\n      contacts = r2.contacts || [];\n      console.log(\u0027query= lookup for \u0027 + senderEmail + \u0027 → \u0027 + contacts.length + \u0027 results\u0027);\n    } catch(e) {\n      console.log(\u0027query= lookup error: \u0027 + e.message);\n    }\n  }\n\n  if (contacts.length === 0) {\n    console.log(\u0027Contact not found in GHL for: \u0027 + senderEmail + \u0027 — skipping\u0027);\n    continue;\n  }\n\n  const contact = contacts[0];\n  const contactId = contact.id;\n  const nameParts = [contact.firstName, contact.lastName].filter(p =\u003e p \u0026\u0026 p.trim());\n  const fullName = contact.contactName || (nameParts.length \u003e 0 ? nameParts.join(\u0027 \u0027) : senderEmail);\n  const tags = contact.tags || [];\n  console.log(\u0027Found contact: \u0027 + fullName + \u0027 | tags: \u0027 + tags.join(\u0027,\u0027));\n\n  // Only skip if already replied AND has no outreach tags (pure duplicate guard)\n  const hasOutreach = tags.includes(\u0027outreach\u0027) || tags.includes(\u0027outreach-sent\u0027);\n  if (tags.includes(\u0027replied\u0027) \u0026\u0026 !hasOutreach) {\n    console.log(\u0027Already processed (non-outreach replied contact): \u0027 + senderEmail + \u0027 — skipping\u0027);\n    continue;\n  }\n\n  // Add replied tag (safe to call even if already has it — GHL is idempotent)\n  await this.helpers.httpRequest({\n    method: \u0027POST\u0027,\n    url: \u0027https://services.leadconnectorhq.com/contacts/\u0027 + contactId + \u0027/tags\u0027,\n    headers: { \u0027Authorization\u0027: \u0027Bearer pit-6f6ca107-7bae-40b6-98da-4a97734767be\u0027, \u0027Version\u0027: \u00272021-07-28\u0027, \u0027Content-Type\u0027: \u0027application/json\u0027 },\n    body: { tags: [\u0027replied\u0027] },\n    json: true\n  });\n\n  // Find opportunity and move stage\n  const oppResp = await this.helpers.httpRequest({\n    method: \u0027GET\u0027,\n    url: \u0027https://services.leadconnectorhq.com/opportunities/search?location_id=lRmpmIPQq1UG7nJr1LK5\u0026contact_id=\u0027 + contactId + \u0027\u0026pipeline_id=z712pcy3WvLGf2xtIZgV\u0027,\n    headers: { \u0027Authorization\u0027: \u0027Bearer pit-6f6ca107-7bae-40b6-98da-4a97734767be\u0027, \u0027Version\u0027: \u00272021-07-28\u0027 },\n    json: true\n  });\n\n  const opportunities = oppResp.opportunities || [];\n  let opportunityId = null;\n\n  if (opportunities.length \u003e 0) {\n    opportunityId = opportunities[0].id;\n    await this.helpers.httpRequest({\n      method: \u0027PUT\u0027,\n      url: \u0027https://services.leadconnectorhq.com/opportunities/\u0027 + opportunityId,\n      headers: { \u0027Authorization\u0027: \u0027Bearer pit-6f6ca107-7bae-40b6-98da-4a97734767be\u0027, \u0027Version\u0027: \u00272021-07-28\u0027, \u0027Content-Type\u0027: \u0027application/json\u0027 },\n      body: { pipelineStageId: \u0027082e1052-b5c8-432d-aa17-53a92c5922b3\u0027 },\n      json: true\n    });\n  } else {\n    console.log(\u0027No opportunity found for contact: \u0027 + contactId + \u0027 — skipping stage move\u0027);\n  }\n\n  results.push({ json: { senderEmail, subject, body, messageId, contactId, fullName, opportunityId } });\n}\n\nif (results.length === 0) throw new Error(\u0027No contacts processed — check console logs above for details\u0027);\nreturn results;"
+                                                           },
+                                            "id": "REDACTED",
+                                            "name":  "Process All Replies",
+                                            "type":  "n8n-nodes-base.code",
+                                            "typeVersion":  2,
+                                            "position":  [
+                                                             5040,
+                                                             800
+                                                         ]
+                                        },
+                                        {
+                                            "parameters":  {
+                                                               "jsCode":  "const results = [];\nfor (const item of $input.all()) {\n  const body = item.json.body || \u0027\u0027;\n  const response = await this.helpers.httpRequest({\n    method: \u0027POST\u0027,\n    url: \u0027https://api.deepseek.com/chat/completions\u0027,\n    headers: {\n      \u0027Authorization\u0027: \u0027Bearer sk-ddbf941f66c84e5d9f7a87f8d69b1a11\u0027,\n      \u0027Content-Type\u0027: \u0027application/json\u0027\n    },\n    body: {\n      model: \u0027deepseek-chat\u0027,\n      messages: [\n        { role: \u0027system\u0027, content: \u0027You are a sales reply classifier. Classify the reply into exactly one of these categories: Interested, Not Interested, Question, Out of Office, Unsubscribe, Other. Reply with only the category name, nothing else.\u0027 },\n        { role: \u0027user\u0027, content: \u0027Reply body: \u0027 + body }\n      ],\n      max_tokens: 10\n    },\n    json: true\n  });\n  const category = (response.choices?.[0]?.message?.content || \u0027Other\u0027).trim();\n  results.push({ json: { ...item.json, category } });\n}\nreturn results;"
+                                                           },
+                                            "id": "REDACTED",
+                                            "name":  "DeepSeek Classify",
+                                            "type":  "n8n-nodes-base.code",
+                                            "typeVersion":  2,
+                                            "position":  [
+                                                             5264,
+                                                             800
+                                                         ]
+                                        },
+                                        {
+                                            "parameters":  {
+                                                               "jsCode":  "const categoryMap = {\n  \u0027Interested\u0027: \u0027category-interested\u0027,\n  \u0027Not Interested\u0027: \u0027category-not-interested\u0027,\n  \u0027Question\u0027: \u0027category-question\u0027,\n  \u0027Out of Office\u0027: \u0027category-out-of-office\u0027,\n  \u0027Unsubscribe\u0027: \u0027category-unsubscribe\u0027,\n  \u0027Other\u0027: \u0027category-other\u0027\n};\nreturn $input.all().map(item =\u003e ({\n  json: { ...item.json, categoryTag: categoryMap[item.json.category] || \u0027category-other\u0027 }\n}));"
+                                                           },
+                                            "id": "REDACTED",
+                                            "name":  "Extract Category",
+                                            "type":  "n8n-nodes-base.code",
+                                            "typeVersion":  2,
+                                            "position":  [
+                                                             5488,
+                                                             800
+                                                         ]
+                                        },
+                                        {
+                                            "parameters":  {
+                                                               "jsCode":  "const results = [];\nfor (const item of $input.all()) {\n  const contactId = item.json.contactId;\n  const categoryTag = item.json.categoryTag || \u0027category-other\u0027;\n  await this.helpers.httpRequest({\n    method: \u0027POST\u0027,\n    url: \u0027https://services.leadconnectorhq.com/contacts/\u0027 + contactId + \u0027/tags\u0027,\n    headers: {\n      \u0027Authorization\u0027: \u0027Bearer pit-6f6ca107-7bae-40b6-98da-4a97734767be\u0027,\n      \u0027Version\u0027: \u00272021-07-28\u0027,\n      \u0027Content-Type\u0027: \u0027application/json\u0027\n    },\n    body: { tags: [categoryTag] },\n    json: true\n  });\n  results.push({ json: { ...item.json } });\n}\nreturn results;"
+                                                           },
+                                            "id": "REDACTED",
+                                            "name":  "Add Category Tag",
+                                            "type":  "n8n-nodes-base.code",
+                                            "typeVersion":  2,
+                                            "position":  [
+                                                             5712,
+                                                             800
+                                                         ],
+                                            "alwaysOutputData":  false
+                                        },
+                                        {
+                                            "parameters":  {
+                                                               "jsCode":  "const categoryToLabel = {\n  \u0027category-interested\u0027: \u0027outreach-interested\u0027,\n  \u0027category-not-interested\u0027: \u0027outreach-not-interested\u0027,\n  \u0027category-question\u0027: \u0027outreach-question\u0027,\n  \u0027category-out-of-office\u0027: \u0027outreach-out-of-office\u0027,\n  \u0027category-unsubscribe\u0027: \u0027outreach-unsubscribe\u0027,\n  \u0027category-other\u0027: \u0027outreach-other\u0027\n};\n\nconst results = [];\nfor (const item of $input.all()) {\n  const messageId = item.json.messageId;\n  const labelName = categoryToLabel[item.json.categoryTag] || \u0027outreach-other\u0027;\n\n  try {\n    // List labels\n    const labelsResp = await this.helpers.httpRequestWithAuthentication.call(this, \u0027gmailOAuth2\u0027, {\n      method: \u0027GET\u0027,\n      url: \u0027https://gmail.googleapis.com/gmail/v1/users/me/labels\u0027,\n      json: true\n    });\n    let labelId = (labelsResp.labels || []).find(l =\u003e l.name === labelName)?.id;\n\n    // Create if missing\n    if (!labelId) {\n      const created = await this.helpers.httpRequestWithAuthentication.call(this, \u0027gmailOAuth2\u0027, {\n        method: \u0027POST\u0027,\n        url: \u0027https://gmail.googleapis.com/gmail/v1/users/me/labels\u0027,\n        json: true,\n        body: { name: labelName, labelListVisibility: \u0027labelShow\u0027, messageListVisibility: \u0027show\u0027 }\n      });\n      labelId = created.id;\n    }\n\n    // Apply to message\n    if (labelId \u0026\u0026 messageId) {\n      await this.helpers.httpRequestWithAuthentication.call(this, \u0027gmailOAuth2\u0027, {\n        method: \u0027POST\u0027,\n        url: \u0027https://gmail.googleapis.com/gmail/v1/users/me/messages/\u0027 + messageId + \u0027/modify\u0027,\n        json: true,\n        body: { addLabelIds: [labelId] }\n      });\n      console.log(\u0027Applied label \u0027 + labelName + \u0027 to message \u0027 + messageId);\n    }\n  } catch(e) {\n    console.log(\u0027Gmail label error: \u0027 + e.message);\n  }\n\n  results.push({ json: { ...item.json } });\n}\nreturn results;"
+                                                           },
+                                            "id": "REDACTED",
+                                            "name":  "Apply Gmail Label",
+                                            "type":  "n8n-nodes-base.code",
+                                            "typeVersion":  2,
+                                            "position":  [
+                                                             5936,
+                                                             800
+                                                         ]
+                                        },
+                                        {
+                                            "parameters":  {
+                                                               "documentId":  {
+                                                                                  "__rl":  true,
+                                                                                  "value":  "18Dn0z6Haz6FYVPqL5c5DalyabsR20E9kID2YT10sWnc",
+                                                                                  "mode":  "list",
+                                                                                  "cachedResultName":  "outreachleads",
+                                                                                  "cachedResultUrl":  "https://docs.google.com/spreadsheets/d/18Dn0z6Haz6FYVPqL5c5DalyabsR20E9kID2YT10sWnc/edit?usp=drivesdk"
+                                                                              },
+                                                               "sheetName":  {
+                                                                                 "__rl":  true,
+                                                                                 "value":  "gid=0",
+                                                                                 "mode":  "list",
+                                                                                 "cachedResultName":  "Sheet1",
+                                                                                 "cachedResultUrl":  "https://docs.google.com/spreadsheets/d/18Dn0z6Haz6FYVPqL5c5DalyabsR20E9kID2YT10sWnc/edit#gid=0"
+                                                                             },
+                                                               "filtersUI":  {
+                                                                                 "values":  [
+                                                                                                {
+                                                                                                    "lookupColumn":  "contact_id",
+                                                                                                    "lookupValue":  "={{ $json.contactId }}"
+                                                                                                }
+                                                                                            ]
+                                                                             },
+                                                               "options":  {
+
+                                                                           }
+                                                           },
+                                            "id": "REDACTED",
+                                            "name":  "Lookup Outreach Row",
+                                            "type":  "n8n-nodes-base.googleSheets",
+                                            "typeVersion":  4.5,
+                                            "position":  [
+                                                             6160,
+                                                             800
+                                                         ],
+                                            "credentials":  {
+                                                                "googleSheetsOAuth2Api":  {
+                                                                                              "id":  "E9ackg1zdv5UCbnb",
+                                                                                              "name":  "googleoutreach"
+                                                                                          }
+                                                            },
+                                            "onError":  "continueErrorOutput"
+                                        },
+                                        {
+                                            "parameters":  {
+                                                               "jsCode":  "// $input here = sheet rows (one per contact, in same order as Add Category Tag output)\n// Add Category Tag output has the reply data (senderEmail, fullName, body, category, contactId)\nconst replyItems = $(\u0027Apply Gmail Label\u0027).all();\nconst sheetItems = $input.all();\n\nreturn replyItems.map((replyItem, i) =\u003e {\n  const reply = replyItem.json;\n  // Match sheet row by index (same order), fall back to empty if missing\n  const sheetRow = sheetItems[i]?.json || {};\n  const fromEmail = sheetRow.from_email || \u0027manual outreach (not in sheet)\u0027;\n  const mailboxSlot = sheetRow.mailbox_slot || \u0027N/A\u0027;\n  const originalSubject = sheetRow.subject || sheetRow.Subject || reply.subject || \u0027\u0027;\n  return { json: { ...reply, fromEmail, mailboxSlot, originalSubject } };\n});"
+                                                           },
+                                            "id": "REDACTED",
+                                            "name":  "Merge Sheet Data",
+                                            "type":  "n8n-nodes-base.code",
+                                            "typeVersion":  2,
+                                            "position":  [
+                                                             6384,
+                                                             800
+                                                         ]
+                                        },
+                                        {
+                                            "parameters":  {
+                                                               "sendTo":  "boilovdr@gmail.com",
+                                                               "subject":  "=[{{ $json.category }}] Reply from {{ $json.fullName }} ({{ $json.senderEmail }})",
+                                                               "message":  "=\u003ch2\u003eNew Outreach Reply — {{ $json.category }}\u003c/h2\u003e\n\u003cp\u003e\u003cstrong\u003eFrom:\u003c/strong\u003e {{ $json.fullName }} ({{ $json.senderEmail }})\u003c/p\u003e\n\u003cp\u003e\u003cstrong\u003eOriginal outreach sent from:\u003c/strong\u003e {{ $json.fromEmail }}\u003c/p\u003e\n\u003cp\u003e\u003cstrong\u003eMailbox slot:\u003c/strong\u003e {{ $json.mailboxSlot }}\u003c/p\u003e\n\u003cp\u003e\u003cstrong\u003eSubject line used:\u003c/strong\u003e {{ $json.originalSubject }}\u003c/p\u003e\n\u003cp\u003e\u003cstrong\u003eReply subject:\u003c/strong\u003e {{ $json.subject }}\u003c/p\u003e\n\u003chr/\u003e\n\u003cp\u003e\u003cstrong\u003eTheir message:\u003c/strong\u003e\u003c/p\u003e\n\u003cp\u003e{{ $json.body || \u0027(No body available)\u0027 }}\u003c/p\u003e",
+                                                               "options":  {
+
+                                                                           }
+                                                           },
+                                            "id": "REDACTED",
+                                            "name":  "Notify Boss",
+                                            "type":  "n8n-nodes-base.gmail",
+                                            "typeVersion":  2.1,
+                                            "position":  [
+                                                             6832,
+                                                             800
+                                                         ],
+                                            "webhookId":  "f441c8c6-9e9b-4364-9da2-69e2de1e3798",
+                                            "credentials":  {
+                                                                "gmailOAuth2":  {
+                                                                                    "id":  "o2b7KRdgOugkOYa3",
+                                                                                    "name":  "gunjan"
+                                                                                }
+                                                            }
+                                        }
+                                    ],
+                          "connections":  {
+                                              "Schedule Trigger":  {
+                                                                       "main":  [
+                                                                                    [
+                                                                                        {
+                                                                                            "node":  "Get Unread Emails",
+                                                                                            "type":  "main",
+                                                                                            "index":  0
+                                                                                        }
+                                                                                    ]
+                                                                                ]
+                                                                   },
+                                              "Get Unread Emails":  {
+                                                                        "main":  [
+                                                                                     [
+                                                                                         {
+                                                                                             "node":  "Parse Reply",
+                                                                                             "type":  "main",
+                                                                                             "index":  0
+                                                                                         }
+                                                                                     ]
+                                                                                 ]
+                                                                    },
+                                              "Parse Reply":  {
+                                                                  "main":  [
+                                                                               [
+                                                                                   {
+                                                                                       "node":  "Mark as Read",
+                                                                                       "type":  "main",
+                                                                                       "index":  0
+                                                                                   }
+                                                                               ]
+                                                                           ]
+                                                              },
+                                              "Mark as Read":  {
+                                                                   "main":  [
+                                                                                [
+                                                                                    {
+                                                                                        "node":  "Process All Replies",
+                                                                                        "type":  "main",
+                                                                                        "index":  0
+                                                                                    }
+                                                                                ]
+                                                                            ]
+                                                               },
+                                              "Process All Replies":  {
+                                                                          "main":  [
+                                                                                       [
+                                                                                           {
+                                                                                               "node":  "DeepSeek Classify",
+                                                                                               "type":  "main",
+                                                                                               "index":  0
+                                                                                           }
+                                                                                       ]
+                                                                                   ]
+                                                                      },
+                                              "DeepSeek Classify":  {
+                                                                        "main":  [
+                                                                                     [
+                                                                                         {
+                                                                                             "node":  "Extract Category",
+                                                                                             "type":  "main",
+                                                                                             "index":  0
+                                                                                         }
+                                                                                     ]
+                                                                                 ]
+                                                                    },
+                                              "Extract Category":  {
+                                                                       "main":  [
+                                                                                    [
+                                                                                        {
+                                                                                            "node":  "Add Category Tag",
+                                                                                            "type":  "main",
+                                                                                            "index":  0
+                                                                                        }
+                                                                                    ]
+                                                                                ]
+                                                                   },
+                                              "Add Category Tag":  {
+                                                                       "main":  [
+                                                                                    [
+                                                                                        {
+                                                                                            "node":  "Apply Gmail Label",
+                                                                                            "type":  "main",
+                                                                                            "index":  0
+                                                                                        }
+                                                                                    ]
+                                                                                ]
+                                                                   },
+                                              "Apply Gmail Label":  {
+                                                                        "main":  [
+                                                                                     [
+                                                                                         {
+                                                                                             "node":  "Lookup Outreach Row",
+                                                                                             "type":  "main",
+                                                                                             "index":  0
+                                                                                         }
+                                                                                     ]
+                                                                                 ]
+                                                                    },
+                                              "Lookup Outreach Row":  {
+                                                                          "main":  [
+                                                                                       [
+                                                                                           {
+                                                                                               "node":  "Merge Sheet Data",
+                                                                                               "type":  "main",
+                                                                                               "index":  0
+                                                                                           }
+                                                                                       ]
+                                                                                   ]
+                                                                      },
+                                              "Merge Sheet Data":  {
+                                                                       "main":  [
+                                                                                    [
+                                                                                        {
+                                                                                            "node":  "Notify Boss",
+                                                                                            "type":  "main",
+                                                                                            "index":  0
+                                                                                        }
+                                                                                    ]
+                                                                                ]
+                                                                   }
+                                          },
+                          "nodeGroups":  [
+
+                                         ],
+                          "authors":  "Marc  Verdeflor",
+                          "name":  "Version d40a1e93",
+                          "description":  "",
+                          "autosaved":  true,
+                          "workflowPublishHistory":  [
+                                                         {
+                                                             "createdAt":  "2026-08-13T09:07:14.752Z",
+                                                             "id":  632,
+                                                             "workflowId":  "SdRbYMj61VQoqHi5",
+                                                             "versionId":  "d40a1e93-1e9d-4579-a76e-ba157f3053b7",
+                                                             "event":  "activated",
+                                                             "userId":  "0ef78b71-a163-4c21-9d9b-65b62aac79fe"
+                                                         }
+                                                     ]
+                      }
+}
